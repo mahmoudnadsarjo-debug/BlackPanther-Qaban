@@ -1,5 +1,5 @@
 # PROGRESS - Black Panther back-rail scale ad   (updated 2026-11-18)
-Phase: preview (v1 rendered, waiting for the owner's review)
+Phase: preview (v1 rendered and checked, waiting for the owner's review)
 Current version: v1 -> renders/previews/Black Panther Scale Ad - Preview v1.mp4
 
 Done:
