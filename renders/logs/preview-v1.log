@@ -1,0 +1,26 @@
+Input #0, image2pipe, from 'pipe:0':
+  Duration: N/A, bitrate: N/A
+  Stream #0:0: Video: png, rgba(pc, gbr/unknown/unknown), 1080x1920, 30 fps, 30 tbr, 30 tbn
+Input #1, wav, from '/home/user/BlackPanther-Qaban/assets/audio/mix-v1.wav':
+  Metadata:
+    encoder         : Lavf60.16.100
+  Duration: 00:00:24.00, bitrate: 2304 kb/s
+  Stream #1:0: Audio: pcm_s24le ([1][0][0][0] / 0x0001), 48000 Hz, stereo, s32 (24 bit), 2304 kb/s
+Stream mapping:
+  Stream #0:0 -> #0:0 (png (native) -> h264 (libx264))
+  Stream #1:0 -> #0:1 (pcm_s24le (native) -> aac (native))
+[libx264 @ 0x5625a8ed3d80] using cpu capabilities: MMX2 SSE2Fast SSSE3 SSE4.2 AVX FMA3 BMI2 AVX2 AVX512
+[libx264 @ 0x5625a8ed3d80] profile High, level 4.0, 4:2:0, 8-bit
+[libx264 @ 0x5625a8ed3d80] 264 - core 164 r3108 31e19f9 - H.264/MPEG-4 AVC codec - Copyleft 2003-2023 - http://www.videolan.org/x264.html - options: cabac=1 ref=3 deblock=1:0:0 analyse=0x3:0x113 me=hex subme=7 psy=1 psy_rd=1.00:0.00 mixed_ref=1 me_range=16 chroma_me=1 trellis=1 8x8dct=1 cqm=0 deadzone=21,11 fast_pskip=1 chroma_qp_offset=-2 threads=6 lookahead_threads=1 sliced_threads=0 nr=0 decimate=1 interlaced=0 bluray_compat=0 constrained_intra=0 bframes=3 b_pyramid=2 b_adapt=1 b_bias=0 direct=1 weightb=1 open_gop=0 weightp=2 keyint=250 keyint_min=25 scenecut=40 intra_refresh=0 rc_lookahead=40 rc=crf mbtree=1 crf=18.0 qcomp=0.60 qpmin=0 qpmax=69 qpstep=4 ip_ratio=1.40 aq=1:1.00
+Output #0, mp4, to '/home/user/BlackPanther-Qaban/renders/previews/Black Panther Scale Ad - Preview v1.mp4':
+  Metadata:
+    encoder         : Lavf60.16.100
+  Stream #0:0: Video: h264 (avc1 / 0x31637661), yuv420p(tv, progressive), 1080x1920, q=2-31, 30 fps, 15360 tbn
+    Metadata:
+      encoder         : Lavc60.31.102 libx264
+    Side data:
+      cpb: bitrate max/min/avg: 0/0/0 buffer size: 0 vbv_delay: N/A
+  Stream #0:1: Audio: aac (LC) (mp4a / 0x6134706D), 48000 Hz, stereo, fltp, 192 kb/s
+    Metadata:
+      encoder         : Lavc60.31.102 aac
+frame=    0 fps=0.0 q=0.0 size=       0kB time=N/A bitrate=N/A speed=N/A    frame=    0 fps=0.0 q=0.0 size=       0kB time=-00:00:00.02 bitrate=N/A speed=N/A    frame=    0 fps=0.0 q=0.0 size=       0kB time=00:00:00.00 bitrate=N/A speed=   0x    frame=    0 fps=0.0 q=0.0 size=       0kB time=00:00:00.04 bitrate=   9.0kbits/s speed=0.0159x    frame=    0 fps=0.0 q=0.0 size=       0kB time=00:00:00.10 bitrate=   3.6kbits/s speed=0.0335x    frame=    0 fps=0.0 q=0.0 size=       0kB time=00:00:00.14 bitrate=   2.6kbits/s speed=0.0405x    frame=    0 fps=0.0 q=0.0 size=       0kB time=00:00:00.17 bitrate=   2.2kbits/s speed=0.0408x    frame=    0 fps=0.0 q=0.0 size=       0kB time=00:00:00.25 bitrate=   1.5kbits/s speed=0.0545x    frame=    0 fps=0.0 q=0.0 size=       0kB time=00:00:00.27 bitrate=   1.4kbits/s speed=0.0534x    frame=    0 fps=0.0 q=0.0 size=       0kB time=00:00:00.29 bitrate=   1.3kbits/s speed=0.0524x    frame=    0 fps=0.0 q=0.0 size=       0kB time=00:00:00.38 bitrate=   1.0kbits/s speed=0.0619x    frame=    0 fps=0.0 q=0.0 size=       0kB time=00:00:00.40 bitrate=   0.9kbits/s speed=0.0604x    frame=    0 fps=0.0 q=0.0 size=       0kB time=00:00:00.44 bitrate=   0.9kbits/s speed=0.062x    frame=    0 fps=0.0 q=0.0 size=       0kB time=00:00:00.46 bitrate=   0.8kbits/s speed=0.0608x    frame=    0 fps=0.0 q=0.0 size=       0kB time=00:00:00.55 bitrate=   0.7kbits/s speed=0.0674x    frame=    0 fps=0.0 q=0.0 size=       0kB time=00:00:00.57 bitrate=   0.7kbits/s speed=0.0659x    frame=    0 fps=0.0 q=0.0 size=       0kB time=00:00:00.61 bitrate=   0.6kbits/s speed=0.0669x    frame=    0 fps=0.0 q=0.0 size=       0kB time=00:00:00.68 bitrate=   0.6kbits/s speed=0.07x    

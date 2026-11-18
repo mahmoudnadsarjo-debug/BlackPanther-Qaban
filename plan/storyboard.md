@@ -6,7 +6,7 @@
 | 2 Problem | 2.5-6.0 | Angry shopkeeper jabbing at a battered dial scale, needle swinging | cut punch-in, winged coins fly off on beats 4.0/4.5/5.0 | قبانك القديم! -> كل غرام غلط / = مصاري بتطير | hit, sneaky pizzicato, spring boing, coin + falling whistle |
 | 3 Swipe | 6.0-9.5 | Panther on the counter, deadpan; taps the old scale twice, shoves it off; shopkeeper grabs his head | AI clip remapped to taps 6.5 / 7.0, shove 7.5, crash 8.0 | مع السلامة | music holds; tok, tok, whoosh + slide whistle, metal crash, bits skitter |
 | 4 Reveal | 9.5-12.0 | The Black Panther scale slams into a pool of light; panther leaps on and sits | 1.7x slam + shake + impact lines; landing at 10.5 | قبان ظهر إلكتروني / بلاك بانثر | reversed cymbal, sub drop, beat enters at 10.0, slams |
-| 5 Dimensions | 12.0-14.0 | Same shot, measure brackets draw on | brackets grow from the middle, pills pop | مقاس بيشيل شغلك · ارتفاع 70 سم · قاعدة 50×40 سم · ظهر حماية | zip + tick per label |
+| 5 Dimensions | 12.0-14.0 | Same shot, measure brackets draw on | brackets grow from the middle, pills pop | مقاس بشيل شغلك · ارتفاع 70 سم · قاعدة 50×40 سم · ظهر حماية | zip + tick per label |
 | 6 Indicator | 14.0-16.0 | Indicator close-up; LEDs light: 12.500 / 0.850 / 10.625 | dutch tilt settles; weight settles, price keyed in, total locks with a glint | بحسبلك السعر لحاله · الوزن / سعر الكيلو / الإجمالي | riff drops out; beeps, confirm, cash bell |
 | 7 Load | 16.0-18.0 | Three sacks on the platform, panther lounging on top | three thuds, each cut wider | منصّة حديد مبزّر / للشغل الثقيل | heavy sack thuds |
 | 8 Payoff | 18.0-20.0 | Shopkeeper and panther fist-to-paw bump, shop lights warm | bump lands on the cut, coins rain down the sides | وزن صح = ربح صح | punch, coin shower, bell run |

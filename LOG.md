@@ -13,3 +13,4 @@
 2026-11-18 13:20 · review fixes · headlines clipped at frame edge -> auto-fit to 940 px; dust drawn as outlined balls -> soft; flashes reduced; load shot re-framed as a 3-step pull-back; LED decimal points enlarged; end-card pack shot feathered; black edge on shakes -> plate underlay · src/ · re-sheeted
 2026-11-18 13:23 · sound · tools/make_audio.py; first mix measured ~20 dB bass-heavy vs 0.5-6 kHz -> two balance passes; all 35 sounding cues verified to have energy within 30 ms · assets/audio/mix-v1.wav · -14.0 LUFS, -1.8 dBTP (metrics only, not auditioned)
 2026-11-18 13:25 · render · full 1080x1920 30 fps preview with audio · renders/previews/Black Panther Scale Ad - Preview v1.mp4 · see renders/logs/preview-v1.log
+2026-11-18 13:29 · copy fix · "بيشيل" -> "بشيل" (Jordanian form); first full render stopped on purpose and restarted so the preview carries the fix · plan/copy.json · re-rendering
