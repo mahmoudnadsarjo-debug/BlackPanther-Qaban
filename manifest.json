@@ -1,0 +1,319 @@
+[
+ {
+  "path": "assets/ai/design/panther-sheet-nanobanana.png",
+  "type": "character sheet",
+  "source": "Higgsfield (owner account), generated 2026-11-18 for this project",
+  "model": "nano_banana_pro",
+  "job_id": "0beef089-1822-44c0-91ab-f114f0a3bfb8",
+  "author": "AI-generated from the project's own prompts",
+  "license": "Subject to the owner's Higgsfield plan terms; confirm commercial-use rights before paid ads",
+  "used_in": "reference for every shot; temporary emblem",
+  "note": "LOCKED mascot design"
+ },
+ {
+  "path": "assets/ai/design/panther-sheet-seedream.png",
+  "type": "character sheet (rejected alternative)",
+  "source": "Higgsfield (owner account), generated 2026-11-18 for this project",
+  "model": "seedream_5_5",
+  "job_id": "f8b2aa99-0181-4a3a-aea7-4ea550ba7079",
+  "author": "AI-generated from the project's own prompts",
+  "license": "Subject to the owner's Higgsfield plan terms; confirm commercial-use rights before paid ads",
+  "used_in": "not used",
+  "note": ""
+ },
+ {
+  "path": "assets/ai/design/panther-sheet-gpt.png",
+  "type": "character sheet (rejected alternative)",
+  "source": "Higgsfield (owner account), generated 2026-11-18 for this project",
+  "model": "gpt_image_2_6",
+  "job_id": "6f30497c-b4f2-4c37-a1e2-7e9e50199a2c",
+  "author": "AI-generated from the project's own prompts",
+  "license": "Subject to the owner's Higgsfield plan terms; confirm commercial-use rights before paid ads",
+  "used_in": "not used",
+  "note": ""
+ },
+ {
+  "path": "assets/ai/design/scale-sheet-gpt.png",
+  "type": "product sheet v1 (superseded)",
+  "source": "Higgsfield (owner account), generated 2026-11-18 for this project",
+  "model": "gpt_image_2_6",
+  "job_id": "b0947814-6f10-4370-96eb-03be578a6f1e",
+  "author": "AI-generated from the project's own prompts",
+  "license": "Subject to the owner's Higgsfield plan terms; confirm commercial-use rights before paid ads",
+  "used_in": "not used",
+  "note": ""
+ },
+ {
+  "path": "assets/ai/design/scale-sheet-nanobanana.png",
+  "type": "product sheet (failed, ghosting)",
+  "source": "Higgsfield (owner account), generated 2026-11-18 for this project",
+  "model": "nano_banana_pro",
+  "job_id": "3381b780-456b-463b-aeb1-e2ce12df397e",
+  "author": "AI-generated from the project's own prompts",
+  "license": "Subject to the owner's Higgsfield plan terms; confirm commercial-use rights before paid ads",
+  "used_in": "not used",
+  "note": ""
+ },
+ {
+  "path": "assets/ai/design/scale-sheet-v2.png",
+  "type": "product sheet",
+  "source": "Higgsfield (owner account), generated 2026-11-18 for this project",
+  "model": "gpt_image_2_6",
+  "job_id": "435f525c-1d1f-4992-b133-0b7b2ebf7dc5",
+  "author": "AI-generated from the project's own prompts",
+  "license": "Subject to the owner's Higgsfield plan terms; confirm commercial-use rights before paid ads",
+  "used_in": "reference for every product shot",
+  "note": "LOCKED product drawing, redrawn from the owner's photos, no J.B.C mark"
+ },
+ {
+  "path": "assets/ai/design/merchant-sheet.png",
+  "type": "character sheet",
+  "source": "Higgsfield (owner account), generated 2026-11-18 for this project",
+  "model": "gpt_image_2_6",
+  "job_id": "283ed4ab-80e6-4653-8236-e50b8452a8df",
+  "author": "AI-generated from the project's own prompts",
+  "license": "Subject to the owner's Higgsfield plan terms; confirm commercial-use rights before paid ads",
+  "used_in": "reference for shopkeeper shots",
+  "note": "LOCKED shopkeeper design"
+ },
+ {
+  "path": "assets/ai/keys/k1a-eyes-slit.png",
+  "type": "key frame",
+  "source": "Higgsfield (owner account), generated 2026-11-18 for this project",
+  "model": "gpt_image_2_6",
+  "job_id": "0bb0906c-5750-44ec-b6ad-7b5436da9196",
+  "author": "AI-generated from the project's own prompts",
+  "license": "Subject to the owner's Higgsfield plan terms; confirm commercial-use rights before paid ads",
+  "used_in": "start frame of v1-eyes",
+  "note": ""
+ },
+ {
+  "path": "assets/ai/keys/k1b-eyes-open.png",
+  "type": "key frame",
+  "source": "Higgsfield (owner account), generated 2026-11-18 for this project",
+  "model": "gpt_image_2_6",
+  "job_id": "1181c2e0-ff90-4eaf-aaff-1296582d8284",
+  "author": "AI-generated from the project's own prompts",
+  "license": "Subject to the owner's Higgsfield plan terms; confirm commercial-use rights before paid ads",
+  "used_in": "end frame of v1-eyes",
+  "note": ""
+ },
+ {
+  "path": "assets/ai/keys/k2-problem.png",
+  "type": "key frame",
+  "source": "Higgsfield (owner account), generated 2026-11-18 for this project",
+  "model": "gpt_image_2_6",
+  "job_id": "7a1d47f5-b7a6-4c21-bce0-78f9b4e2837d",
+  "author": "AI-generated from the project's own prompts",
+  "license": "Subject to the owner's Higgsfield plan terms; confirm commercial-use rights before paid ads",
+  "used_in": "start frame of v2-problem",
+  "note": ""
+ },
+ {
+  "path": "assets/ai/keys/k3a-swipe-start.png",
+  "type": "key frame",
+  "source": "Higgsfield (owner account), generated 2026-11-18 for this project",
+  "model": "gpt_image_2_6",
+  "job_id": "732418ac-467a-4f33-bda8-8c600e3048f6",
+  "author": "AI-generated from the project's own prompts",
+  "license": "Subject to the owner's Higgsfield plan terms; confirm commercial-use rights before paid ads",
+  "used_in": "start frame of v3-swipe",
+  "note": ""
+ },
+ {
+  "path": "assets/ai/keys/k3b-swipe-end.png",
+  "type": "key frame",
+  "source": "Higgsfield (owner account), generated 2026-11-18 for this project",
+  "model": "gpt_image_2_6",
+  "job_id": "3b399921-5831-4583-ac9b-ba77c44d2e3a",
+  "author": "AI-generated from the project's own prompts",
+  "license": "Subject to the owner's Higgsfield plan terms; confirm commercial-use rights before paid ads",
+  "used_in": "end frame of v3-swipe",
+  "note": ""
+ },
+ {
+  "path": "assets/ai/keys/k4a-hero-scale.png",
+  "type": "key frame",
+  "source": "Higgsfield (owner account), generated 2026-11-18 for this project",
+  "model": "gpt_image_2_6",
+  "job_id": "34aba7aa-a479-443d-abec-2fd65bf8364a",
+  "author": "AI-generated from the project's own prompts",
+  "license": "Subject to the owner's Higgsfield plan terms; confirm commercial-use rights before paid ads",
+  "used_in": "start frame of v4-jump",
+  "note": ""
+ },
+ {
+  "path": "assets/ai/keys/k4b-panther-on-scale.png",
+  "type": "key frame",
+  "source": "Higgsfield (owner account), generated 2026-11-18 for this project",
+  "model": "gpt_image_2_6",
+  "job_id": "13c6623f-186f-4af5-893c-683568c392e3",
+  "author": "AI-generated from the project's own prompts",
+  "license": "Subject to the owner's Higgsfield plan terms; confirm commercial-use rights before paid ads",
+  "used_in": "end frame of v4-jump; S9 pack shot",
+  "note": ""
+ },
+ {
+  "path": "assets/ai/keys/k5-load.png",
+  "type": "key frame",
+  "source": "Higgsfield (owner account), generated 2026-11-18 for this project",
+  "model": "gpt_image_2_6",
+  "job_id": "6b3a938d-53f8-4634-be9c-5ce91610d183",
+  "author": "AI-generated from the project's own prompts",
+  "license": "Subject to the owner's Higgsfield plan terms; confirm commercial-use rights before paid ads",
+  "used_in": "S7 close steps; start frame of v6-load",
+  "note": ""
+ },
+ {
+  "path": "assets/ai/keys/k6-payoff.png",
+  "type": "key frame",
+  "source": "Higgsfield (owner account), generated 2026-11-18 for this project",
+  "model": "gpt_image_2_6",
+  "job_id": "2cf6d854-91ad-410d-9db8-9457a56a6d33",
+  "author": "AI-generated from the project's own prompts",
+  "license": "Subject to the owner's Higgsfield plan terms; confirm commercial-use rights before paid ads",
+  "used_in": "start frame of v5-payoff",
+  "note": ""
+ },
+ {
+  "path": "assets/ai/keys/k7-panel.png",
+  "type": "key frame",
+  "source": "Higgsfield (owner account), generated 2026-11-18 for this project",
+  "model": "gpt_image_2_6",
+  "job_id": "ef67dde0-5f5c-42f6-a4a6-0c6eb0b29072",
+  "author": "AI-generated from the project's own prompts",
+  "license": "Subject to the owner's Higgsfield plan terms; confirm commercial-use rights before paid ads",
+  "used_in": "S6 plate (left half of panel redrawn in code)",
+  "note": ""
+ },
+ {
+  "path": "assets/ai/video/v1-eyes-k4.mp4",
+  "type": "animated clip",
+  "source": "Higgsfield (owner account), generated 2026-11-18 for this project",
+  "model": "kling4_0",
+  "job_id": "48cedf98-ff2e-43ac-b015-e162da34a43a",
+  "author": "AI-generated from the project's own prompts",
+  "license": "Subject to the owner's Higgsfield plan terms; confirm commercial-use rights before paid ads",
+  "used_in": "S1",
+  "note": ""
+ },
+ {
+  "path": "assets/ai/video/v1-eyes-k3.mp4",
+  "type": "animated clip (alternative, not used)",
+  "source": "Higgsfield (owner account), generated 2026-11-18 for this project",
+  "model": "kling3_0 pro",
+  "job_id": "94ad274d-3ee2-4885-a12d-ed233da7f146",
+  "author": "AI-generated from the project's own prompts",
+  "license": "Subject to the owner's Higgsfield plan terms; confirm commercial-use rights before paid ads",
+  "used_in": "not used",
+  "note": ""
+ },
+ {
+  "path": "assets/ai/video/v2-problem.mp4",
+  "type": "animated clip",
+  "source": "Higgsfield (owner account), generated 2026-11-18 for this project",
+  "model": "kling3_0 pro",
+  "job_id": "824239ed-0030-4d51-a448-e2b7c25d60a0",
+  "author": "AI-generated from the project's own prompts",
+  "license": "Subject to the owner's Higgsfield plan terms; confirm commercial-use rights before paid ads",
+  "used_in": "S2",
+  "note": ""
+ },
+ {
+  "path": "assets/ai/video/v3-swipe.mp4",
+  "type": "animated clip",
+  "source": "Higgsfield (owner account), generated 2026-11-18 for this project",
+  "model": "kling3_0 pro",
+  "job_id": "10047f75-d945-437d-b4d6-9fa65e9be992",
+  "author": "AI-generated from the project's own prompts",
+  "license": "Subject to the owner's Higgsfield plan terms; confirm commercial-use rights before paid ads",
+  "used_in": "S3",
+  "note": ""
+ },
+ {
+  "path": "assets/ai/video/v4-jump.mp4",
+  "type": "animated clip",
+  "source": "Higgsfield (owner account), generated 2026-11-18 for this project",
+  "model": "kling3_0 pro",
+  "job_id": "0ecf9767-954f-48ac-8ea6-979ec33e2bcd",
+  "author": "AI-generated from the project's own prompts",
+  "license": "Subject to the owner's Higgsfield plan terms; confirm commercial-use rights before paid ads",
+  "used_in": "S4, S5",
+  "note": ""
+ },
+ {
+  "path": "assets/ai/video/v5-payoff.mp4",
+  "type": "animated clip",
+  "source": "Higgsfield (owner account), generated 2026-11-18 for this project",
+  "model": "kling3_0 pro",
+  "job_id": "0e491142-8d7e-4962-aa81-7bcc44d43cf4",
+  "author": "AI-generated from the project's own prompts",
+  "license": "Subject to the owner's Higgsfield plan terms; confirm commercial-use rights before paid ads",
+  "used_in": "S8",
+  "note": ""
+ },
+ {
+  "path": "assets/ai/video/v6-load.mp4",
+  "type": "animated clip",
+  "source": "Higgsfield (owner account), generated 2026-11-18 for this project",
+  "model": "kling3_0 pro",
+  "job_id": "99dd5f77-e205-4df0-b06e-f20fdc73a06d",
+  "author": "AI-generated from the project's own prompts",
+  "license": "Subject to the owner's Higgsfield plan terms; confirm commercial-use rights before paid ads",
+  "used_in": "S7",
+  "note": ""
+ },
+ {
+  "path": "assets/brand/emblem-placeholder.png",
+  "type": "TEMPORARY logo stand-in",
+  "source": "cut from assets/ai/design/panther-sheet-nanobanana.png",
+  "author": "derived",
+  "license": "as source",
+  "used_in": "S6 panel, S9 end card",
+  "note": "REPLACE with the owner's real Black Panther logo file"
+ },
+ {
+  "path": "assets/fonts/Almarai/",
+  "type": "font",
+  "source_url": "https://www.npmjs.com/package/@fontsource/almarai",
+  "author": "Boutros Fonts / Almarai",
+  "license": "SIL OFL 1.1",
+  "license_file": "assets/fonts/Almarai/LICENSE.txt",
+  "used_in": "all text"
+ },
+ {
+  "path": "assets/fonts/Tajawal/",
+  "type": "font (alternate, loaded but unused in v1)",
+  "source_url": "https://www.npmjs.com/package/@fontsource/tajawal",
+  "author": "Boutros Fonts",
+  "license": "SIL OFL 1.1",
+  "license_file": "assets/fonts/Tajawal/LICENSE.txt",
+  "used_in": "none"
+ },
+ {
+  "path": "assets/fonts/Alexandria/",
+  "type": "font (alternate, loaded but unused in v1)",
+  "source_url": "https://www.npmjs.com/package/@fontsource/alexandria",
+  "author": "The Alexandria Project Authors",
+  "license": "SIL OFL 1.1",
+  "license_file": "assets/fonts/Alexandria/LICENSE.txt",
+  "used_in": "none"
+ },
+ {
+  "path": "assets/audio/mix-v1.wav",
+  "type": "music + SFX master",
+  "source": "tools/make_audio.py (procedural synthesis, seed 20261118)",
+  "author": "this project",
+  "license": "original work, no third-party audio",
+  "used_in": "whole film",
+  "note": "-14.0 LUFS, -1.8 dBTP measured; not auditioned by a person yet"
+ },
+ {
+  "path": "assets/refs/style/",
+  "type": "style reference screenshots",
+  "source": "supplied by the owner (frames of a third-party animation)",
+  "author": "third party",
+  "license": "reference-only",
+  "used_in": "analysis only - never rendered, never sent to a generator"
+ }
+]

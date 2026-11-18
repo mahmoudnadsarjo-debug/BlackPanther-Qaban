@@ -1,0 +1,8 @@
+node_modules/
+cache/
+.env
+.mvd/
+# extracted clip frames: rebuild with tools/rebuild_clips.sh
+assets/ai/clips/*/*.jpg
+# third-party style reference screenshots: reference-only, not redistributed
+assets/refs/

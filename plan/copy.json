@@ -1,0 +1,41 @@
+{
+  "_note": "Every on-screen Arabic line lives here. Edit text, re-render. Items marked CONFIRM must be checked by the owner before paid ads.",
+  "hook": [
+    "في حرامي",
+    "بمحلك…"
+  ],
+  "problem1": [
+    "قبانك",
+    "القديم!"
+  ],
+  "problem2": [
+    "كل غرام غلط",
+    "= مصاري بتطير"
+  ],
+  "bye": "مع السلامة",
+  "kicker": "قبان ظهر إلكتروني",
+  "brand_ar": "بلاك بانثر",
+  "brand_en": "BLACK PANTHER",
+  "dims_head": "مقاس بيشيل شغلك",
+  "dim_base": "قاعدة 50×40 سم",
+  "dim_pole": "ارتفاع 70 سم",
+  "dim_rail": "ظهر حماية",
+  "panel_head": "بحسبلك السعر لحاله",
+  "panel_rows": [
+    "الوزن",
+    "سعر الكيلو",
+    "الإجمالي"
+  ],
+  "load_head": [
+    "منصّة حديد مبزّر",
+    "للشغل الثقيل"
+  ],
+  "payoff": [
+    "وزن صح",
+    "=",
+    "ربح صح"
+  ],
+  "limited": "الكمية محدودة",
+  "cta": "اطلبه هسّا",
+  "cta_sub": "راسلنا عالخاص"
+}
