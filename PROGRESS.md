@@ -20,6 +20,6 @@ Open issues / inputs still needed from the owner:
 - Confirm Higgsfield plan terms cover commercial / paid-ad use of the generated art.
 - Reference video itself could not be opened (youtube.com is outside this session's network allowlist).
 
-Approvals: none yet (v1 is a first preview made without intermediate sign-offs, at the owner's request to "show creativity").
+Approvals: none formal yet. 2026-11-18 the owner reacted very positively to Preview v1 with no change requests; the open items above still need answers before a Final.
 
 Key files: plan/beats.json (timing) · plan/copy.json (all Arabic text) · src/scenes/*.js · tools/make_audio.py · TASTE.md · manifest.json

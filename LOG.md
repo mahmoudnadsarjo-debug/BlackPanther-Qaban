@@ -15,3 +15,4 @@
 2026-11-18 13:25 · render · full 1080x1920 30 fps preview with audio · renders/previews/Black Panther Scale Ad - Preview v1.mp4 · see renders/logs/preview-v1.log
 2026-11-18 13:29 · copy fix · "بيشيل" -> "بشيل" (Jordanian form); first full render stopped on purpose and restarted so the preview carries the fix · plan/copy.json · re-rendering
 2026-11-18 13:33 · render · Preview v1 complete: 720 frames, 1080x1920, 30 fps, 24.000 s, H.264 yuv420p + AAC 48 kHz, faststart, 32.9 MB; measured -14.1 LUFS / -1.6 dBTP; frames pulled back from the encoded file and checked at 14 timestamps · renders/previews/Black Panther Scale Ad - Preview v1.mp4, renders/logs/preview-v1.log · ready for owner review (not auditioned by ear)
+2026-11-18 13:40 · owner reaction · Preview v1 received very positively ("اشي بجنن"); no change requests given; this is a reaction, not a sign-off on the open items · PROGRESS.md · waiting for logo file, price/contact, product facts and an audio listen
