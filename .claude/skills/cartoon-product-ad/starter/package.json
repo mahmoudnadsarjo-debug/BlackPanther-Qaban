@@ -4,8 +4,6 @@
   "type": "module",
   "description": "Illustrated product ad: generated art + code-set text, deterministic render",
   "scripts": {
-    "smoke": "node tools/render.mjs --from 0 --to 4 --scale 0.5 --name \"Smoke test\" --force",
-    "preview": "node tools/render.mjs --scale 0.5 --out renders/previews",
-    "final": "node tools/render.mjs --scale 1 --out renders/final"
+    "check": "node tools/render.mjs --check"
   }
 }

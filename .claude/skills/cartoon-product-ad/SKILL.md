@@ -30,7 +30,7 @@ Image and video models garble small text and non-Latin scripts, cannot be correc
    ```bash
    python3 "<skill>/scripts/new_project.py" <project-folder>
    ```
-   then run the smoke test it prints. A passing smoke test proves fonts, text shaping, renderer, encoder and the sound engine before any credits are spent.
+   then run the smoke test it prints. A passing smoke test proves fonts, text shaping, plates, renderer, encoder and the sound engine before any credits are spent.
 
 `<skill>` is the folder this file lives in. Run project commands from the project root.
 
@@ -42,6 +42,7 @@ Work in this order. Each stage ends with something you *look at* before moving o
 |---|---|---|---|
 | 1 | Intake | `AD_BRIEF.md` with facts, assets, open questions | `references/intake-and-story.md` |
 | 2 | Story | `plan/storyboard.md`, `plan/beats.json`, `plan/copy.json` | `references/intake-and-story.md` |
+| 2b | Block-out | the whole film with grey-box plates, real text and sound | `references/compositing.md` |
 | 3 | Look | style block + locked sheets (mascot, product, cast) | `references/style-and-prompts.md` |
 | 4 | Key frames | one vertical frame per shot (+ end frames for motion) | `references/style-and-prompts.md`, `references/generation.md` |
 | 5 | Animation | 3-5 s clips, extracted and inspected | `references/generation.md` |
@@ -65,6 +66,18 @@ Use the proven arc: **hook (0-2.5 s) → problem → a memorable gag or turn →
 
 Write all on-screen lines into `plan/copy.json` in the audience's own dialect, short enough to read in the time they are up (about 0.3 s per word + 0.5 s).
 
+A cue is any moment that must hit the beat or make a sound. Small follow-ups (a sub-line 0.3 s after its headline) can be offsets from a cue in scene code.
+
+Shorter or longer than 20-30 s? `references/intake-and-story.md` says which beats to keep at 6, 12-15 and 45 seconds.
+
+### 2b. Block-out - find layout problems while they are free
+
+Before generating anything, build the film with placeholder plates:
+```bash
+python3 tools/greybox.py k4-hero "product hero" --subject 0.17,0.25,0.72,0.89
+```
+Write the scenes against those plates, with the real copy and sound, and render contact sheets with `--guides`. This is where you discover that a callout has no room beside the product, a headline sits on the subject, or a label lands under the platform buttons - and the fix is a number in a prompt ("product left of centre, filling 55 % of the width") instead of a paid regeneration. Generated frames then drop in under the same file names.
+
 ### 3. Look - lock the designs before drawing scenes
 
 1. Turn the references into a **style block**: a paragraph of technique (line quality, shading, palette, light, finish). Technique is fair to learn from; someone's artwork is not raw material - never upload a third-party artist's frames to a generator and never name the artist in a prompt.
@@ -75,7 +88,7 @@ These sheets are the references for every later image. That is what keeps the ch
 
 ### 4. Key frames
 
-One vertical frame per shot, each generated with the sheets attached. Reserve the top fifth for a headline and keep the bottom fifth unimportant. For motion with a defined outcome, make the **end frame as an edit of the start frame** ("recreate this exactly, with ONE change..."), so the animation model interpolates between two frames you chose.
+One vertical frame per shot, each generated with the sheets attached. Reserve the top fifth for a headline and keep the bottom fifth unimportant. For a shot that will carry callouts, compose for them: subject off-centre or narrower, with calm space on the side the labels go (the block-out tells you how much). For motion with a defined outcome, make the **end frame as an edit of the start frame** ("recreate this exactly, with ONE change..."), so the animation model interpolates between two frames you chose.
 
 Where something must be exact (a display, a label, a logo spot), generate it **empty** and fill it in code.
 
@@ -92,9 +105,10 @@ and read the contact sheet it writes. Reject morphing, extra limbs, design drift
 Copy a pattern from `src/patterns/` into `src/scenes/`, point a scene in `plan/beats.json` at it, replace assets, cues, copy keys and coordinates.
 - Read real coordinates off the plate with `tools/grid.py` instead of guessing.
 - Pin clip actions to cues with `remap()`; find the action frames with `tools/motion_probe.py`.
-- After every change render a contact sheet and look at it:
+- A missing scene file, a JSON typo or a cue outside the film is caught in a second by `node tools/render.mjs --check` (every render runs it first).
+- After every change render a contact sheet and look at it (add `--guides` to see the safe-area lines):
   ```bash
-  python3 tools/sheet.py <from> <to> 4 8 0.25 <name>
+  python3 tools/sheet.py <from> <to> 4 8 0.25 <name> --guides
   ```
   Then check a few full-resolution stills (`node tools/render.mjs --still <t> --out cache/stills/x.png`) for anything small: decimal points, label text, logo edges.
 
@@ -104,11 +118,11 @@ Name a recipe on each cue (`"sfx": ["impact_big"]`) and describe the music as se
 ```bash
 python3 tools/make_audio.py && python3 tools/master_audio.py cache/audio/mix-raw.wav assets/audio/mix-v1.wav && python3 tools/audio_report.py assets/audio/mix-v1.wav
 ```
-Everything is synthesized, so there is no licensing risk in a paid ad. You cannot hear it: report it as *measured, not auditioned* and ask the owner to listen on a phone.
+A changed mix gets the next name (`mix-v2.wav`); the mastering tool will not overwrite an existing one. Everything is synthesized, so there is no licensing risk in a paid ad. You cannot hear it: report it as *measured, not auditioned* and ask the owner to listen on a phone.
 
 ### 8. QA and delivery
 
-Render with a plain versioned name, run `tools/qa_video.py` on the file, export a cover frame, update `AD_BRIEF.md` and `PRODUCTION_LOG.md`, commit, and hand over with the note structure in `references/qa-and-delivery.md`: what it is, what is temporary, what was not verified, what you need next.
+Render at full size (`--scale 1`) with a plain versioned name, run `python3 tools/qa_video.py "<file>" --final`, export a cover frame, update `AD_BRIEF.md` and `PRODUCTION_LOG.md`, commit, and hand over with the note structure in `references/qa-and-delivery.md`: what it is, what is temporary, what was not verified, what you need next.
 
 ## Rules that protect the owner
 
@@ -120,7 +134,7 @@ These exist because breaking them costs the owner money, reach or trust.
 - **Other people's work stays reference-only.** Style screenshots are studied, never uploaded to a generator, never rendered, not committed to a public repository.
 - **Spend deliberately.** Quote the cost before a batch, keep a running total in `PRODUCTION_LOG.md`, never re-submit a job whose outcome is unknown, and stop to ask before exceeding the budget the owner named. A full 24 s ad in the worked example cost about 95 credits; treat a plan that needs several times that as a sign to simplify.
 - **Gentle on the eyes.** One big flash at the product reveal at most (opacity ≤ 0.7), others ≤ 0.4 and no more than one every couple of seconds. Strobing gets ads rejected and can harm viewers.
-- **Safe areas (1080 x 1920).** Headlines y 200-560, the whole text block of an end card y 200-960, nothing essential below y 1250 or in the right 140 px - platform UI sits there.
+- **Safe areas (1080 x 1920).** Headlines y 200-560; the whole text block of an end card y 200-960; nothing essential below y 1250; and from about y 850 down nothing essential right of x 940, where the platform's buttons sit. Keep 60 px from the side edges everywhere. `--guides` draws these lines; anchor labels to them (`pill(..., { anchor: 'right' })` at x 936) rather than nudging by eye.
 - **Say what you did not check.** Sound not heard, a reference video you could not open, a product drawn from sight rather than from a file, a dialect you are not native in: say so in the hand-over.
 
 ## Talking to the owner

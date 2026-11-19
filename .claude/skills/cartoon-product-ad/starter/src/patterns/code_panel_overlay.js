@@ -8,6 +8,7 @@ import { line } from '../lib/text.js';
 import { pop, slam, shake, punch, flashEnv, topShade, sparkle, PAL } from '../lib/fx.js';
 import { seg7 } from '../lib/seg7.js';
 import { COPY, KEY, cam, plate, rr } from '../lib/shot.js';
+import { DEFAULT_FAMILY } from '../fonts.js';
 
 const ROWS = [
   { id: 'led1', final: '12.500' },   // kg
@@ -28,7 +29,7 @@ function rowValue(i, T) {
 export async function draw(ctx, t, env) {
   const T = env.T, t0 = cue('cut_panel'), t3 = cue('led3');
   const bmp = await env.img(KEY('k7-panel')), logo = await env.img('/assets/brand/logo.png');
-  const z = lerp(1.22, 1.04, E.outExpo(seg(t, 0, 0.45))) * lerp(1, 1.04, t / 2) * punch(T, t3 + 0.15, 0.04, 0.3);
+  const z = lerp(1.22, 1.04, E.outExpo(seg(t, 0, 0.45))) * lerp(1, 1.04, t / env.dur) * punch(T, t3 + 0.15, 0.04, 0.3);
   const sh = shake(T, t0, 14, 0.25, 61);
   cam(ctx, { zoom: z, fx: 0.5, fy: 0.47, dx: sh.x, dy: sh.y + 70, rot: lerp(-0.05, 0, E.outCubic(seg(t, 0, 0.5))) }, c => {
     plate(c, bmp);
@@ -36,7 +37,7 @@ export async function draw(ctx, t, env) {
     c.fillStyle = '#0b0b0b'; c.fillRect(132, 690, 414, 448);
     ROWS.forEach((r, i) => {
       const y = 694 + i * 118, v = rowValue(i, T), lit = v !== null;
-      c.save(); c.font = '700 29px "Almarai", sans-serif'; c.direction = 'rtl'; c.textAlign = 'right'; c.textBaseline = 'middle';
+      c.save(); c.font = `700 29px "${DEFAULT_FAMILY}", sans-serif`; c.direction = 'rtl'; c.textAlign = 'right'; c.textBaseline = 'middle';
       c.fillStyle = lit ? '#f3eefc' : '#8d86a3'; c.fillText(COPY.panel_rows[i], 526, y + 17); c.restore();
       rr(c, 150, y + 36, 380, 76, 9); c.fillStyle = '#150b0c'; c.fill(); c.strokeStyle = '#7e484a'; c.lineWidth = 3.5; c.stroke();
       const glow = i === 2 && lit ? 0.9 + 0.9 * flashEnv(T, t3 + 0.15, 0.5) : 0.9;
@@ -46,7 +47,7 @@ export async function draw(ctx, t, env) {
     // logo strip: the owner's logo file (assets/brand/logo.png, transparent background)
     const lh = 62, lw = lh * logo.width / logo.height;
     c.drawImage(logo, 152, 1064, lw, lh);
-    c.save(); c.font = '800 30px "Almarai", sans-serif'; c.direction = 'ltr'; c.textAlign = 'left'; c.textBaseline = 'middle';
+    c.save(); c.font = `800 30px "${DEFAULT_FAMILY}", sans-serif`; c.direction = 'ltr'; c.textAlign = 'left'; c.textBaseline = 'middle';
     c.fillStyle = '#f3eefc'; c.letterSpacing = '3px'; c.fillText(COPY.brand_en, 152 + lw + 14, 1098); c.restore();
     const us = seg(T, t3 + 0.15, t3 + 0.6);
     if (us > 0 && us < 1) { sparkle(c, 170, 1010, 54 * Math.sin(Math.PI * us), PAL.amber, us * 2); sparkle(c, 520, 968, 34 * Math.sin(Math.PI * us), PAL.white, -us * 2); }

@@ -49,6 +49,15 @@ Seven beats in 20-30 seconds. Each one has a job; if a beat cannot do its job, c
 | Payoff | 2 s | the feeling after buying | a human reaction, an equation-style line |
 | Call to action | 3-4 s | one action | brand lockup, one offer or scarcity line, one button, on screen ≥ 2 s |
 
+Length variants - cut whole beats, never squeeze all seven into less time:
+
+| Film | Keep | Notes |
+|---|---|---|
+| 6 s bumper | hook → reveal with brand → call to action | one line of copy, one sound hit |
+| 12-15 s | hook → reveal → one or two features (can share the reveal shot as callouts) → payoff or end card | the hook must carry the problem by itself |
+| 20-30 s | all seven | the default |
+| 45 s+ | all seven, with a second gag or a customer moment before the payoff | only if the platform and budget call for it |
+
 Useful structure for the story itself: a **misdirect in the hook** (the viewer assumes one thing, the cut reveals another) gives the problem beat a free punchline. In the worked example: glowing eyes in a dark shop + "There's a thief in your shop..." → cut: the thief is the old scale.
 
 ## Hooks that fit a mascot brand
@@ -81,7 +90,7 @@ At 120 BPM a beat is 0.5 s. Put every cut on a beat and every hit on a beat or h
 ```
 
 - `id` names the scene; `mod` is the file in `src/scenes/` (omit it when it equals the id). Two entries can share a `mod` to make one continuous shot that the sound and review tools still see as two beats.
-- A cue is any moment something visibly happens: a word lands, a paw taps, a digit locks. Scenes look times up by id (`cue('drop')`), so a typo fails loudly instead of rendering wrong.
+- A cue is any moment that must hit the beat or make a sound: a headline lands, a paw taps, a digit locks. Small follow-ups (the second word of a line, a sub-line 0.3 s later) may be offsets from a cue in scene code. Scenes look times up by id (`cue('drop')`), so a typo fails loudly instead of rendering wrong.
 - Give every cue an `sfx` list, or `["none"]` when the silence is deliberate. `references/sound.md` lists the recipes.
 
 Rhythm that works: fast-fast-hold. Two or three quick beats, then one that lasts. Leave the bar before the reveal nearly empty - the contrast is what makes the hit feel big.
@@ -89,7 +98,7 @@ Rhythm that works: fast-fast-hold. Two or three quick beats, then one that lasts
 ## Copy rules and `plan/copy.json`
 
 - All on-screen text lives in `plan/copy.json`; scenes read it by key. Nothing is typed into scene code.
-- At most 6-8 words on screen at once. Two stacked lines: a quiet line in white, the keyword line in the accent colour.
+- A headline is at most 6-8 words. Two stacked lines: a quiet line in white, the keyword line in the accent colour. Callout labels on a product shot are extra, but keep them to three, two or three words each, appearing one per beat - and drop the headline's second line while they are up.
 - Write in the audience's spoken dialect, not formal language, and have it checked by a native reader when you are not one. In the worked example one word had the wrong regional form and had to be corrected before delivery - say plainly when you are unsure.
 - Features are stated as outcomes when the fact supports it ("works out the price for you") and as plain facts when it is a measurement ("base 50 x 40 cm").
 - The call to action is a single verb phrase plus where to do it.

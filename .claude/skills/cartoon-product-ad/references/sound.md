@@ -86,6 +86,8 @@ Start `beat` on the beat *after* the big impact (impact at 9.5 s, groove from 10
 
 `bpm` sets every musical duration; `root_hz` transposes everything (73.42 = D). Changing `seed` re-rolls the random details (coin pitches, noise), nothing structural.
 
+Every section takes `"gain"` (1 = default). `"low_gain"` in `audio` (e.g. 0.8) thins the kick, 808 and sub everywhere - the first thing to try when the report shows a low-heavy film.
+
 ## Commands
 
 ```bash
@@ -98,13 +100,13 @@ python3 tools/master_audio.py cache/audio/mix-raw.wav assets/audio/mix-v1.wav
 python3 tools/audio_report.py assets/audio/mix-v1.wav
 ```
 
-`master_audio.py` applies plain gain to reach -14 LUFS with a -1.5 dBTP ceiling and prints PASS when both hold. New mix after a change = new version name (`mix-v2.wav`); pass it to the renderer with `--audio`.
+`master_audio.py` applies plain gain to reach -14 LUFS with a -1.5 dBTP ceiling, prints PASS or FAIL, and refuses to overwrite an existing output (pass `--force` only for throwaway files). New mix after a change = new version name (`mix-v2.wav`); pass it to the renderer with `--audio`. `make_audio.py --help` prints the plan format.
 
 ## Reading the report
 
 `audio_report.py` prints level and five frequency bands per scene. It cannot tell you whether the track is pleasant, but it catches the failures that matter on a phone:
 
-- **Low end swallowing everything.** The `<120 Hz` column should be at most ~8-10 dB above `500-2k`. The first mix of the worked example had a 20 dB gap - loud in headphones, nearly silent on a phone speaker. The trims at the top of the recipe section encode the fix; if you add a new low instrument, trim it the same way.
+- **Low end swallowing everything.** Compare the `<120 Hz` column with `500-2k`. Where the riff plays (`beat` bars) expect a gap of about 5-10 dB. Sections without a melody - `drone`, `hold`, `outro`, bars listed in `no_riff_bars` - normally sit at 10-13 dB and that is fine. Above ~15 dB anywhere, act: lower `low_gain`, lower that section's `gain`, or lower `g` on the low one-shot in it (`impact_big`, `boom_tail`). The first mix of the worked example had a 20 dB gap - loud in headphones, nearly silent on a phone speaker. If you add a new low instrument, trim it like the others at the top of the recipe section.
 - **A silent scene** (rms below about -35 dB) that was not meant to be silent.
 - **A scene much louder than its neighbours** (more than ~8 dB) that is not the reveal.
 - Peak at the ceiling in many scenes means the lows are eating headroom; the master will come up short of -14 LUFS.

@@ -10,7 +10,10 @@
 //   frames  node tools/render.mjs --from 0 --to 8 --fps 4 --scale 0.25 --frames cache/frames/a
 //   still   node tools/render.mjs --still 1.7 --out cache/stills/hook.png
 //
+//   check   node tools/render.mjs --check          lint the plan only (no browser): scenes, cues, copy
+//
 // Options: --fps (default plan fps) --scale 0..1 --png (lossless frames into the encoder; slower)
+//          --guides (draw the safe-area lines on stills / frames / sheets - never on a delivery render)
 //          --crf 17 --force (overwrite an existing MP4). AD_CHROMIUM / AD_FFMPEG override the binaries.
 import { createServer } from 'node:http';
 import { spawn } from 'node:child_process';
@@ -35,7 +38,33 @@ const number = (key, fallback) => {
 };
 
 if (!existsSync(path.join(ROOT, 'plan/beats.json'))) fail('run from the project root (plan/beats.json not found)');
-const plan = JSON.parse(await fs.readFile(path.join(ROOT, 'plan/beats.json'), 'utf8'));
+const readJson = async rel => {
+  try { return JSON.parse(await fs.readFile(path.join(ROOT, rel), 'utf8')); }
+  catch (e) { fail(`${rel}: ${e.message}`); }
+};
+const plan = await readJson('plan/beats.json');
+
+// ---- plan lint: catch in a second what would otherwise surface as a page that never loads ----
+{
+  const problems = [], warnings = [];
+  await readJson('plan/copy.json');
+  if (!(plan.duration > 0)) problems.push('plan/beats.json: "duration" must be a positive number');
+  if (!Array.isArray(plan.scenes) || !plan.scenes.length) problems.push('plan/beats.json: no "scenes"');
+  for (const s of plan.scenes ?? []) {
+    const mod = s.mod ?? s.id;
+    if (!existsSync(path.join(ROOT, 'src/scenes', mod + '.js'))) problems.push(`scene "${s.id}": src/scenes/${mod}.js does not exist (create it, or point "mod" at an existing file)`);
+    if (!(s.end > s.start) || s.start < 0 || s.end > plan.duration + 1e-6) problems.push(`scene "${s.id}": start/end must satisfy 0 <= start < end <= duration`);
+  }
+  const seen = new Set();
+  for (const c of plan.cues ?? []) {
+    if (seen.has(c.id)) problems.push(`cue "${c.id}" is defined twice`); seen.add(c.id);
+    if (!(c.t >= 0 && c.t <= plan.duration)) problems.push(`cue "${c.id}": t=${c.t} is outside the film (0..${plan.duration})`);
+    if (c.sfx === undefined) warnings.push(c.id);
+  }
+  if (warnings.length) console.warn(`render: note - cues with no "sfx" (use ["none"] when silence is deliberate): ${warnings.join(', ')}`);
+  if (problems.length) fail('plan problems:\n  - ' + problems.join('\n  - '));
+  if (opts.check) { console.log(`render: plan OK - ${plan.scenes.length} scenes, ${(plan.cues ?? []).length} cues, ${plan.duration} s`); process.exit(0); }
+}
 const scale = number('scale', 1);
 if (!(scale > 0 && scale <= 1)) fail('--scale must be in (0, 1]');
 
@@ -54,6 +83,7 @@ if (opts.still !== undefined) {
     mode = 'mp4';
     const name = String(opts.name ?? '');
     if (!name || /[\\/:*?"<>|]/.test(name)) fail('give the video a plain --name, e.g. --name "My Ad - Preview v1"');
+    if (opts.guides) fail('--guides is for stills, frames and sheets only - a delivery render must not carry guide lines');
     target = path.resolve(String(opts.out ?? 'renders/previews'), name + '.mp4');
     if (existsSync(target) && !opts.force) fail(`"${path.relative(ROOT, target)}" exists - use a new version name (or --force)`);
   }
@@ -96,9 +126,17 @@ try {
   const pageErrors = [];
   page.on('pageerror', e => pageErrors.push(e.message));
   page.on('console', m => { if (m.type() === 'error') pageErrors.push(m.text()); });
-  await page.goto(`http://127.0.0.1:${server.address().port}/src/index.html?scale=${scale}`);
-  await page.waitForFunction(() => window.AD && window.AD.ready === true, {}, { timeout: 120000 })
-    .catch(() => { throw new Error('page never became ready:\n' + (pageErrors.join('\n') || '(no page errors reported)')); });
+  page.on('response', r => { if (r.status() >= 400) pageErrors.push(`${r.status()} ${new URL(r.url()).pathname}  (file missing or not served)`); });
+  // Fail the moment the page reports a load problem instead of waiting out the ready timeout.
+  let trip; const broken = new Promise((_, no) => { trip = no; });
+  const watch = setInterval(() => { if (pageErrors.length) trip(new Error('page failed to load:\n  ' + pageErrors.join('\n  '))); }, 150);
+  try {
+    await page.goto(`http://127.0.0.1:${server.address().port}/src/index.html?scale=${scale}${opts.guides ? '&guides=1' : ''}`);
+    await Promise.race([broken, page.waitForFunction(() => window.AD && window.AD.ready === true, {}, { timeout: 120000 })
+      .catch(() => { throw new Error('page never became ready (no error reported - is a scene awaiting something that never resolves?)'); })]);
+  } finally { clearInterval(watch); }
+  broken.catch(() => {});
+  pageErrors.length = 0;
 
   const lossless = mode === 'still' || !!opts.png;
   const mime = lossless ? 'image/png' : 'image/jpeg', quality = 0.96;

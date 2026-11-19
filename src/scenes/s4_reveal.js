@@ -51,7 +51,8 @@ export async function draw(ctx, _t, env) {
     const d1 = seg(T, cue('dim1'), cue('dim1') + 0.28), d2 = seg(T, cue('dim2'), cue('dim2') + 0.28), d3 = seg(T, cue('dim3'), cue('dim3') + 0.28);
     // pole height: head underside (y~705) down to the platform top (y~1445), bracket set to the right of the rail
     bracket(c, 842, 705, 842, 1445, d1);
-    pill(c, COPY.dim_pole, 858, 1040, { size: 50, state: pop(T, cue('dim1') + 0.12, 0.24) });
+    // moved up-left and made smaller so it ends at x ~936: platform buttons cover x > 940 from about y 850 down
+    pill(c, COPY.dim_pole, 772, 930, { size: 44, state: pop(T, cue('dim1') + 0.12, 0.24) });
     // base: front edge = 50 cm, right edge = 40 cm
     bracket(c, 178, 1668, 628, 1708, d2, { tick: 20 });
     bracket(c, 706, 1668, 838, 1500, d2, { tick: 20 });

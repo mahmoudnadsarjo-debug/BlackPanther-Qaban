@@ -6,15 +6,15 @@
 Smoke test (no generated assets needed):
 
 ```bash
-python3 tools/make_audio.py
+python3 tools/make_audio.py cache/audio/smoke-raw.wav
 ```
 
 ```bash
-python3 tools/master_audio.py cache/audio/mix-raw.wav assets/audio/mix-v1.wav
+python3 tools/master_audio.py cache/audio/smoke-raw.wav cache/audio/smoke.wav --force
 ```
 
 ```bash
-node tools/render.mjs --from 0 --to 4 --scale 0.5 --name "Smoke test" --audio assets/audio/mix-v1.wav --force
+node tools/render.mjs --from 0 --to 4 --scale 0.5 --name "Smoke test" --audio cache/audio/smoke.wav --force
 ```
 
 After cloning, rebuild clip frames once: `python3 tools/clip_extract.py --all`

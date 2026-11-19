@@ -62,15 +62,28 @@ export function cover(ctx, bmp, { zoom = 1, fx = 0.5, fy = 0.5, dx = 0, dy = 0, 
   ctx.restore();
 }
 
-/** Callout pill with ink outline; `state` is a pop()/slam() result (null hides it). */
-export function pill(ctx, text, x, y, { size = 58, padX = 34, padY = 20, fill = '#ffd23a', color = '#17121f', family = DEFAULT_FAMILY, dir = DEFAULT_DIR, state = { scale: 1, alpha: 1 }, rot = 0 } = {}) {
-  if (!state) return;
+/**
+ * Callout pill with ink outline. `state` is a pop()/slam() result (null hides it).
+ * anchor: 'center' (x is the middle), 'left' (x is the left edge) or 'right' (x is the right edge) - use an edge anchor
+ * to guarantee a pill stops at a safe-area line. maxW shrinks the text until the pill fits. Returns the pill width.
+ */
+export function pill(ctx, text, x, y, { size = 58, padX = 34, padY = 20, fill = '#ffd23a', color = '#17121f', family = DEFAULT_FAMILY, dir = DEFAULT_DIR,
+  anchor = 'center', maxW = 900, state = { scale: 1, alpha: 1 }, rot = 0 } = {}) {
   ctx.save();
-  ctx.font = `800 ${size}px "${family}", sans-serif`; ctx.direction = dir;
-  const w = ctx.measureText(text).width + padX * 2, h = size + padY * 2;
-  ctx.translate(x, y); ctx.rotate(rot); ctx.scale(state.sx ?? state.scale ?? 1, state.sy ?? state.scale ?? 1); ctx.globalAlpha *= state.alpha ?? 1;
-  rr(ctx, -w / 2 + 7, -h / 2 + 9, w, h, h / 2); ctx.fillStyle = '#17121f'; ctx.fill();
-  rr(ctx, -w / 2, -h / 2, w, h, h / 2); ctx.fillStyle = fill; ctx.fill(); ctx.strokeStyle = '#17121f'; ctx.lineWidth = 7; ctx.stroke();
-  ctx.fillStyle = color; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(text, 0, size * 0.04);
+  let w, h;
+  for (;;) {                                           // shrink to fit instead of running off the frame
+    ctx.font = `800 ${size}px "${family}", sans-serif`; ctx.direction = dir;
+    w = ctx.measureText(text).width + padX * 2; h = size + padY * 2;
+    if (w <= maxW || size <= 20) break;
+    size *= 0.94; padX *= 0.94; padY *= 0.94;
+  }
+  if (state) {
+    const cx = anchor === 'left' ? x + w / 2 : anchor === 'right' ? x - w / 2 : x;
+    ctx.translate(cx, y); ctx.rotate(rot); ctx.scale(state.sx ?? state.scale ?? 1, state.sy ?? state.scale ?? 1); ctx.globalAlpha *= state.alpha ?? 1;
+    rr(ctx, -w / 2 + 7, -h / 2 + 9, w, h, h / 2); ctx.fillStyle = '#17121f'; ctx.fill();
+    rr(ctx, -w / 2, -h / 2, w, h, h / 2); ctx.fillStyle = fill; ctx.fill(); ctx.strokeStyle = '#17121f'; ctx.lineWidth = 7; ctx.stroke();
+    ctx.fillStyle = color; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(text, 0, size * 0.04);
+  }
   ctx.restore();
+  return w;
 }

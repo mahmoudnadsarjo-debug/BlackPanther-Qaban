@@ -2,7 +2,7 @@
 
 Working scenes from a delivered ad, kept as patterns. They are not loaded by the starter.
 To use one: copy it into `src/scenes/`, point a scene in `plan/beats.json` at it (`"id"` or `"mod"` = file name without `.js`),
-then replace the asset names, cue ids, copy keys and coordinates with your own.
+then replace the asset names, cue ids, copy keys and coordinates with your own. Also check any `remap()` anchors and `STEPS`/`PACK`/`ROWS` constants at the top of a file - they describe the example's clips and plates, not yours. `code_panel_overlay.js` and `end_card.js` load `assets/brand/logo.png`.
 
 | File | Use it for |
 |---|---|

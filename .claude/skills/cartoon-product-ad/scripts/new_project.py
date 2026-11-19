@@ -15,11 +15,15 @@ for src in sorted(starter.rglob('*')):
     if out.exists(): skipped += 1; continue
     out.parent.mkdir(parents=True, exist_ok=True); shutil.copy2(src, out); copied += 1
 print(f'{copied} files copied to {dest}' + (f' ({skipped} already existed and were left alone)' if skipped else ''))
-print('''
-Next, from the project folder:
-  1. python3 tools/make_audio.py
-  2. python3 tools/master_audio.py cache/audio/mix-raw.wav assets/audio/mix-v1.wav
-  3. node tools/render.mjs --from 0 --to 4 --scale 0.5 --name "Smoke test" --audio assets/audio/mix-v1.wav --force
-  4. look at the result (python3 tools/sheet.py 0 4 4 8 0.25 smoke), then fill in AD_BRIEF.md and replace the smoke plan.
-Scene patterns to copy from: src/patterns/   ·   worked example plan: <skill>/assets/example-black-panther/
-''')
+skill = starter.parent
+print(f"""
+Next, from the project folder ({dest}):
+  1. python3 tools/make_audio.py cache/audio/smoke-raw.wav
+  2. python3 tools/master_audio.py cache/audio/smoke-raw.wav cache/audio/smoke.wav --force
+  3. node tools/render.mjs --from 0 --to 4 --scale 0.5 --name "Smoke test" --audio cache/audio/smoke.wav --force
+  4. python3 tools/sheet.py 0 4 4 8 0.25 smoke     and look at cache/view/smoke.jpg
+Then fill in AD_BRIEF.md, replace plan/beats.json and plan/copy.json, and remove the smoke scene from the plan.
+
+Scene patterns to copy from:  {dest / 'src' / 'patterns'}
+Worked example plan:          {skill / 'assets' / 'example-black-panther'}
+""")

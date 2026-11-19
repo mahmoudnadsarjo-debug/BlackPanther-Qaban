@@ -6,7 +6,9 @@ import { FONTS } from './fonts.js';
 import { makePost } from './lib/post.js';
 import { cover } from './lib/shot.js';
 
-const scale = Number(new URLSearchParams(location.search).get('scale')) || 1;
+const query = new URLSearchParams(location.search);
+const scale = Number(query.get('scale')) || 1;
+const GUIDES = query.get('guides') === '1';
 const even = n => Math.max(2, 2 * Math.round(n / 2));          // H.264 needs even dimensions
 const PW = even(W * scale), PH = even(H * scale);
 const canvas = document.getElementById('stage');
@@ -50,6 +52,8 @@ async function clip(name, tc) {
 }
 
 // ---- scenes ----------------------------------------------------------------------------------
+// A scene module exports draw(ctx, t, env) and may export init(shared) for one-time setup.
+// plan/beats.json may carry "background" (fill colour behind scenes) and "finish" (project-wide post settings).
 const moduleIds = [...new Set(scenes.map(s => s.mod ?? s.id))];
 const loaded = Object.fromEntries(await Promise.all(moduleIds.map(async id => [id, await import(`./scenes/${id}.js`)])));
 const shared = { W, H, FPS, scale, img, clip, cover, cue, BEATS, DURATION };
@@ -71,6 +75,21 @@ async function draw(t) {
     if (out) finish = { ...finish, ...out };
   }
   post(scene, screen, { frame, ...(BEATS.finish ?? {}), ...finish });
+  if (GUIDES) drawGuides();
+}
+
+/** Safe-area lines for layout checks (render with --guides). Never part of a delivery render. */
+function drawGuides() {
+  const k = PW / W;
+  screen.save(); screen.setTransform(k, 0, 0, k, 0, 0); screen.globalAlpha = 0.9; screen.lineWidth = 3; screen.font = '700 26px sans-serif'; screen.direction = 'ltr'; screen.textAlign = 'left';
+  const h = (y, label, colour) => { screen.strokeStyle = screen.fillStyle = colour; screen.setLineDash([18, 12]); screen.beginPath(); screen.moveTo(0, y); screen.lineTo(W, y); screen.stroke(); screen.fillText(label, 12, y - 8); };
+  h(200, 'y200  headlines start', '#00e5ff'); h(560, 'y560  headlines end', '#00e5ff');
+  h(960, 'y960  end-card text block ends', '#7cff6b'); h(1250, 'y1250  nothing essential below', '#ff4fd8');
+  screen.strokeStyle = screen.fillStyle = '#ff4fd8'; screen.beginPath(); screen.moveTo(940, 850); screen.lineTo(940, H); screen.stroke();
+  screen.fillText('x940 (platform buttons, y>850)', 560, 884);
+  screen.strokeStyle = '#ffd23a'; screen.setLineDash([6, 10]);
+  for (const x of [60, 1020]) { screen.beginPath(); screen.moveTo(x, 0); screen.lineTo(x, H); screen.stroke(); }
+  screen.restore();
 }
 
 window.AD = { ready: true, draw, grab: (type = 'image/png', quality = 0.96) => canvas.toDataURL(type, quality) };

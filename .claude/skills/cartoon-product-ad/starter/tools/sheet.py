@@ -2,12 +2,14 @@
 """Render a time range small and tile it into one time-stamped contact sheet.
 One image shows the whole move, so framing, clipped text, overlaps and pops between stills become visible.
 
-usage: sheet.py <from> <to> [fps=4] [cols=8] [scale=0.25] [name]
+usage: sheet.py <from> <to> [fps=4] [cols=8] [scale=0.25] [name] [--guides]
+       --guides draws the safe-area lines on every frame (layout checks only)
 Output: cache/view/<name>.jpg   (frames in cache/sheets/<name>/)
 """
 import glob, pathlib, shutil, subprocess, sys
 from PIL import Image, ImageDraw, ImageFont
 
+guides = '--guides' in sys.argv; sys.argv = [a for a in sys.argv if a != '--guides']
 if len(sys.argv) < 3: sys.exit(__doc__)
 a, b = float(sys.argv[1]), float(sys.argv[2])
 fps = float(sys.argv[3]) if len(sys.argv) > 3 else 4
@@ -16,7 +18,7 @@ scale = float(sys.argv[5]) if len(sys.argv) > 5 else 0.25
 name = sys.argv[6] if len(sys.argv) > 6 else f'sheet-{a:g}-{b:g}'
 d = pathlib.Path('cache/sheets') / name
 shutil.rmtree(d, ignore_errors=True)
-r = subprocess.run(['node', 'tools/render.mjs', '--from', str(a), '--to', str(b), '--fps', str(fps), '--scale', str(scale), '--frames', str(d)], capture_output=True, text=True)
+r = subprocess.run(['node', 'tools/render.mjs', '--from', str(a), '--to', str(b), '--fps', str(fps), '--scale', str(scale), '--frames', str(d)] + (['--guides'] if guides else []), capture_output=True, text=True)
 if r.returncode: sys.exit((r.stdout + r.stderr)[-3000:])
 files = sorted(glob.glob(str(d / '*.jpg'))); w, h = Image.open(files[0]).size
 rows = -(-len(files) // cols)

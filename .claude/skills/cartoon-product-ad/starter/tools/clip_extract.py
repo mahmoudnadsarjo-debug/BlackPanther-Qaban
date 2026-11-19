@@ -8,7 +8,7 @@ Writes assets/ai/video/<name>.mp4 (when given a URL), assets/ai/clips/<name>/000
 and cache/view/clip-<name>.jpg (about six samples per second) - read that sheet for morphing, extra limbs,
 drifting designs or a camera move you did not ask for before you build on the clip.
 """
-import json, pathlib, subprocess, sys
+import json, pathlib, shutil, subprocess, sys
 
 def extract(name, src, cols=8):
     raw = pathlib.Path('assets/ai/video'); raw.mkdir(parents=True, exist_ok=True)
@@ -16,7 +16,9 @@ def extract(name, src, cols=8):
     if str(src).startswith('http'):
         subprocess.run(['curl', '-sS', '--fail', '-m', '300', '--retry', '3', '-o', str(mp4), src], check=True)
     else:
-        mp4 = pathlib.Path(src)
+        given = pathlib.Path(src)
+        if not given.exists(): sys.exit(f'clip file not found: {src}')
+        if given.resolve() != mp4.resolve(): shutil.copy2(given, mp4)      # keep the source in the project: --all rebuilds from here
     info = json.loads(subprocess.run(['ffprobe', '-v', 'error', '-select_streams', 'v:0', '-show_entries', 'stream=width,height,r_frame_rate',
                                       '-of', 'json', str(mp4)], capture_output=True, text=True, check=True).stdout)['streams'][0]
     num, den = map(int, info['r_frame_rate'].split('/')); fps = num / den

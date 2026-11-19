@@ -20,7 +20,7 @@ function rain(ctx, T, t0) {
 export async function draw(ctx, t, env) {
   const T = env.T, tb = cue('bump');
   const bmp = await env.clip('v5-payoff', t * 0.95);
-  const z = lerp(1.2, 1.0, E.outExpo(seg(T, tb, tb + 0.4))) * lerp(1, 1.04, t / 2);
+  const z = lerp(1.2, 1.0, E.outExpo(seg(T, tb, tb + 0.4))) * lerp(1, 1.04, t / env.dur);
   const sh = shake(T, tb, 26, 0.4, 101);
   cam(ctx, { zoom: z, fx: 0.52, fy: 0.535, dx: sh.x, dy: sh.y }, c => {
     plate(c, bmp);

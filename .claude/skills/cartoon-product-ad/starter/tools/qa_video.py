@@ -1,14 +1,16 @@
 #!/usr/bin/env python3
 """Check a rendered MP4 against the delivery spec and pull frames back out of the encoded file for a last look.
 
-usage: qa_video.py <video.mp4> [frames=14]
+usage: qa_video.py <video.mp4> [frames=14] [--final]
+A reduced-size 9:16 preview passes with a NOTE; --final insists on 1080 x 1920 (use it on anything the owner will post).
 Prints PASS/FAIL per item and writes cache/view/qa-<name>.jpg (frames taken from the file the owner will actually receive).
 """
 import json, pathlib, re, subprocess, sys
 from PIL import Image, ImageDraw, ImageFont
 
 if len(sys.argv) < 2: sys.exit(__doc__)
-video = sys.argv[1]; shots = int(sys.argv[2]) if len(sys.argv) > 2 else 14
+final = '--final' in sys.argv; argv = [a for a in sys.argv if a != '--final']
+video = argv[1]; shots = int(argv[2]) if len(argv) > 2 else 14
 plan = json.load(open('plan/beats.json'))
 probe = json.loads(subprocess.run(['ffprobe', '-v', 'error', '-show_streams', '-show_format', '-of', 'json', video], capture_output=True, text=True, check=True).stdout)
 v = next(s for s in probe['streams'] if s['codec_type'] == 'video')
@@ -19,7 +21,11 @@ def check(label, passed, detail=''):
     global ok; ok = ok and passed
     print(f"{'PASS' if passed else 'FAIL'}  {label}{'  - ' + detail if detail else ''}")
 check('video codec H.264 / yuv420p', v['codec_name'] == 'h264' and v['pix_fmt'] == 'yuv420p', f"{v['codec_name']} {v['pix_fmt']}")
-check('size 1080 x 1920', (v['width'], v['height']) == (1080, 1920), f"{v['width']}x{v['height']}")
+full = (v['width'], v['height']) == (1080, 1920)
+if final or full: check('size 1080 x 1920', full, f"{v['width']}x{v['height']}")
+else:
+    check('9:16 frame', abs(v['width'] / v['height'] - 9 / 16) < 0.01, f"{v['width']}x{v['height']}")
+    print(f"NOTE  reduced-size preview ({v['width']}x{v['height']}) - fine for review, render --scale 1 and run with --final before delivery")
 check(f"frame rate {plan.get('fps', 30)}", abs(num / den - plan.get('fps', 30)) < 0.01, f'{num / den:g}')
 check('duration matches the plan', abs(dur - plan['duration']) < 0.05, f"{dur:.3f} s vs {plan['duration']} s")
 head = open(video, 'rb').read(1 << 16)

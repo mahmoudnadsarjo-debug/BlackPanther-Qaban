@@ -18,6 +18,7 @@ Open issues / inputs still needed from the owner:
 - Sound has been measured, not listened to. The owner should audition it on a phone.
 - The price example on the indicator (12.500 kg x 0.850 = 10.625) is illustrative.
 - Confirm Higgsfield plan terms cover commercial / paid-ad use of the generated art.
+- Preview v1 has the "ارتفاع 70 سم" label running to x~1039 at y~1040, where TikTok/Reels buttons sit. Fixed in src/scenes/s4_reveal.js (label now ends at x~936); the fix appears in the next render, Preview v1 itself is unchanged.
 - Reference video itself could not be opened (youtube.com is outside this session's network allowlist).
 
 Approvals: none formal yet. 2026-11-18 the owner reacted very positively to Preview v1 with no change requests; the open items above still need answers before a Final.

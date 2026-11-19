@@ -26,6 +26,7 @@ src/lib/             ink (maths, easing) · fx (motion + drawn effects) · text 
 src/scenes/          one module per scene, named in beats.json
 src/patterns/        working scenes from a delivered ad, to copy from
 tools/               render, sheets, clips, grid, motion probe, cut-out, sound, QA
+assets/ai/design/    locked sheets (mascot, product, cast)
 assets/ai/keys/      still key frames (PNG)      assets/ai/video/  source clips      assets/ai/clips/  extracted frames (not in git)
 assets/brand/        logo.png                    assets/fonts/     font files + licences        assets/audio/  mixes
 renders/previews/    review videos               renders/final/    approved versions            cache/  everything regenerable
@@ -45,8 +46,15 @@ node tools/render.mjs --from 6 --to 9.5 --scale 0.5 --name "Gag check v1"
 node tools/render.mjs --still 13.7 --out cache/stills/dims.png
 ```
 ```bash
-python3 tools/sheet.py 0 8 4 8 0.25 part-a
+python3 tools/sheet.py 0 8 4 8 0.25 part-a --guides
 ```
+```bash
+node tools/render.mjs --check
+```
+
+- `--check` lints the plan without opening a browser: every scene's module exists, `copy.json` parses, cues are unique and inside the film. Every render runs it first, and a page that fails to load reports the missing file at once.
+- `--guides` (stills, frame folders, sheets) draws the safe-area lines: y 200 / 560 (headlines), y 960 (end-card text block), y 1250 (nothing essential below), x 940 from y 850 down (platform buttons), 60 px side margins. A named MP4 refuses `--guides`.
+- The page can only load files under `src/`, `plan/` and `assets/`.
 
 - Output goes to `renders/previews/` unless `--out` says otherwise. An existing file is never overwritten: bump the version in the name.
 - Frames are piped as high-quality JPEG (about 2.8 frames/s at full size on a small cloud machine - roughly 4-5 minutes for 24 s). `--png` is lossless and about 40 % slower; use it only if you see banding.
@@ -60,6 +68,8 @@ A scene module exports `draw(ctx, t, env)`:
 - `t` - seconds since the scene started; `env.T` - absolute time (use this with `cue()`);
 - `env.img(url)`, `env.clip(name, clipSeconds)`, `env.cover(...)`, `env.scene`, `env.dur`, `env.frame`;
 - return value (optional) - finish overrides for this frame: `{ flash, flashColor, bloom, ca, grain, vig, soft }`.
+
+Also available: a module may export `init(shared)` for one-time setup, and `plan/beats.json` may carry `"background"` (fill colour behind scenes) and `"finish"` (project-wide finish settings).
 
 The one law: **a frame depends only on time and inputs.** No `Date`, no `Math.random`, no variables that remember the previous frame. Use `hash(i, seed)` for randomness. This is why a quarter-size contact sheet is trustworthy and why re-renders are identical. A module-level cache of something derived purely from an asset (like a feathered cut-out) is fine.
 
@@ -88,21 +98,53 @@ export async function draw(ctx, t, env) {
 
 ## Library reference
 
-**`lib/ink.js`** - `clamp`, `lerp`, `seg(t, a, b)` (0..1 progress inside a window), easings `E.outExpo / outBack / outCubic / inCubic / inOutSine / outBounce / ...`, `hash(i, seed)`, `snoise`, `taper()` (brush stroke with tapered ends), spline helpers (`spline`, `blob`, `line`) for drawing shapes by hand, `INK` colour.
+**`lib/ink.js`** - `clamp`, `lerp`, `seg(t, a, b)` (0..1 progress inside a window), `TAU`, easings `E.outExpo / outBack / outCubic / inCubic / inOutSine / outBounce / ...`, `hash(i, seed)` (0..1, the only randomness allowed), `snoise`, `taper()` (brush stroke with tapered ends), spline helpers (`spline`, `blob`, `line`) for drawing shapes by hand, `INK`.
 
 **`lib/fx.js`**
-- entrances: `pop(T, t0, d)` (quiet words, pills), `slam(T, t0, d)` (keywords: big → 1 with a squash). Both return `null` before `t0`, so `if (state) draw...`.
-- exit: `out(state, T, t1, d)`.
-- camera feel: `shake(T, t0, amp, dur, seed)` → `{x, y}`, `punch(T, t0, amount, dur)` → zoom multiplier, `flashEnv(T, t0, dur)` → 1..0.
-- readability: `topShade(ctx, alpha, height)`, `bottomShade(...)`.
-- drawn effects: `impactLines`, `speedLines`, `dust`, `sparkle`, `coin`.
-- palette: `PAL` (ink, night, cream, white, amber, red...). Change it to the brand's accent; keep one accent.
 
-**`lib/shot.js`** - `COPY`, `KEY(name)`, `cam(ctx, {zoom, fx, fy, dx, dy, rot}, fn)`, `plate(ctx, bmp)`, `cover(ctx, bmp, opts)`, `remap(t, pairs)`, `pill(ctx, text, x, y, opts)`, `rr()` rounded rect.
+| Function | Signature / options | Notes |
+|---|---|---|
+| `pop` | `pop(T, t0, d = 0.28)` → `{ scale, alpha }` or `null` | quiet words, pills, logos |
+| `slam` | `slam(T, t0, d = 0.2)` → `{ sx, sy, alpha }` or `null` | keywords; big → 1 with a squash |
+| `out` | `out(state, T, t1, d = 0.14)` | shrink-fade exit of a `pop`/`slam` state |
+| `scaleOf` | `scaleOf(state)` → `[sx, sy]` | use when hand-drawing a block that must accept either state shape |
+| `shake` | `shake(T, t0, amp = 22, dur = 0.4, seed)` → `{ x, y }` | stepped per frame |
+| `punch` | `punch(T, t0, amount = 0.06, dur = 0.35)` → zoom multiplier | |
+| `flashEnv` | `flashEnv(T, t0, dur = 0.16)` → 1..0 | multiply by the flash opacity you return |
+| `topShade` / `bottomShade` | `(ctx, alpha, height)` | dark gradient so text reads on a busy plate |
+| `impactLines` | `(ctx, cx, cy, { r0, r1, n, seed, color, w, u })` | `u` = life 0..1 |
+| `speedLines` | `(ctx, { angle, n, seed, color, u, len, w, alpha })` | `angle` 0 = horizontal, π/2 = vertical |
+| `dust` | `(ctx, x, y, u, { seed, n, size, color, spread })` | soft, unoutlined |
+| `sparkle` | `(ctx, x, y, r, color, rot)` | four-point glint |
+| `coin` | `(ctx, x, y, r, spin, tilt, alpha)` | the one ready-made reward particle; draw others with `blob` / canvas paths |
+| `bracket` | `(ctx, ax, ay, bx, by, u, { tick, w, color })` | measure line with end ticks, grows from the middle |
+| `leader` | `(ctx, ax, ay, bx, by, u, { color, dot })` | dotted line from a label to the thing it names |
+| `PAL` | ink, night, indigo, lav, cream, white, amber, amberDeep, red, pink, green | set the accent to the brand colour; keep one accent |
 
-**`lib/text.js`** - `line(ctx, words, opts)`, `label(ctx, str, opts)`, `measure()`.
+`pop` and `slam` return different shapes. `line()` and `pill()` accept both; when you draw a block by hand, scale it with `scaleOf(state)`.
 
-**`lib/seg7.js`** - `seg7(ctx, '12.500', rightX, centreY, height, { color, glow })` seven-segment digits, right-aligned, with a readable decimal point.
+**`lib/shot.js`**
+
+| Function | Signature / options | Notes |
+|---|---|---|
+| `COPY` | the parsed `plan/copy.json` | |
+| `KEY(name)` | → `/assets/ai/keys/<name>.png` | PNG only; for other files pass a project-rooted URL to `env.img` |
+| `cam` | `cam(ctx, { zoom, fx, fy, dx, dy, rot }, fn)` | `fx, fy` = focus as 0..1 of the frame; draw plate-anchored things inside `fn` |
+| `plate` | `plate(ctx, bmp)` | cover-fit at zoom 1, with an underlay against edge exposure |
+| `cover` | `cover(ctx, bmp, { zoom, fx, fy, dx, dy, rot, alpha })` | one-call plate when nothing else must stick to it |
+| `remap` | `remap(t, [[sceneT, clipT], ...])` | piecewise-linear time map |
+| `pill` | `pill(ctx, text, x, y, { size, padX, padY, fill, color, family, dir, anchor, maxW, state, rot })` → width | `anchor`: `'center'`, `'left'` (x = left edge) or `'right'` (x = right edge); shrinks to `maxW` |
+| `rr` | `rr(ctx, x, y, w, h, r)` | rounded-rect path |
+
+**`lib/text.js`**
+
+| Function | Signature / options |
+|---|---|
+| `line` | `line(ctx, words, { x, y, size, gap, weight, family, dir, maxW = 940, each, ...style })`; a word is a string or `{ t, fill, size, weight, family }`; `each(i, word)` returns the word's state plus optional style overrides (e.g. `glow`), or `null` to hide it |
+| `label` | `label(ctx, str, { size, weight, family, dir, fill, stroke, sw, shadow, shadowColor, glow, glowColor, align, alpha })` - one run centred on the current origin |
+| `measure` | `measure(ctx, str, size, weight, family, dir)` → width in design px |
+
+**`lib/seg7.js`** - `seg7(ctx, '12.500', rightX, centreY, height, { color, off, glow, skew, gap })` seven-segment digits, right-aligned, with a readable decimal point.
 
 **`lib/post.js`** - the finish (see below). Not called from scenes.
 
@@ -120,6 +162,11 @@ python3 tools/grid.py assets/ai/keys/k7-panel.png cache/view/grid-panel.jpg 60 0
 The first draws the 1080 x 1920 grid over the plate exactly as the renderer will fit it; the second crops a region and enlarges it for precise reads (design px for the crop box, then a zoom factor). Read corner coordinates from the image, write them into the scene, render a still, adjust once.
 
 Draw plate-anchored things **inside `cam()`** so they move with the camera. Draw headlines **outside** so they stay put.
+
+Callouts need room, and a centre-anchored pill's width is unknown until it renders. So:
+- anchor labels to a safe line instead of centring them: `pill(c, text, 936, y, { anchor: 'right' })` on the right, `pill(c, text, 64, y, { anchor: 'left' })` on the left;
+- check with `--guides`; from y 850 down nothing may cross x 940;
+- do this during the block-out (`tools/greybox.py`), when moving the subject is free. If labels do not fit, the key frame's composition changes - not the font size.
 
 ## Pinning a clip to the beat
 
@@ -145,7 +192,7 @@ line(ctx, [COPY.a, { t: COPY.b, fill: PAL.amber }], { x: 540, y: 330, size: 150,
   each: i => ({ ...slam(T, t0 + i * 0.2), rot: i ? 0.03 : -0.03 }) });
 ```
 
-- Lines auto-shrink to `maxW` (940 px). Still check the sheet: a shrunken headline may now be too small - shorten the copy instead.
+- Lines auto-shrink to `maxW` (940 px, i.e. x 70-1010 when centred - fine in the headline band, which is above the platform buttons). Still check the sheet: a shrunken headline may now be too small - shorten the copy instead.
 - Two-line pattern: quiet line ~110-150 px in white, keyword line ~130-190 px in the accent with `glow`.
 - Small tilts (±0.02-0.04 rad) keep it hand-placed. `topShade` behind text over busy plates.
 - Direction comes from `src/fonts.js` (`DEFAULT_DIR`). Pass `dir: 'ltr'` for a Latin wordmark; set `ctx.letterSpacing` for tracking.
@@ -158,7 +205,10 @@ Pattern: `src/patterns/code_panel_overlay.js`.
 2. Measure the rectangle with `tools/grid.py`; sample its fill colour from the plate.
 3. Paint over it and draw labels, `seg7` digits, logo in code, inside `cam()`.
 4. Animate values from cues: a weight that settles, a price keyed in digit by digit, a total that "computes" for a few frames then locks with a glint.
-5. Logo: `assets/brand/logo.png` with transparency. Until the owner supplies it, make a stand-in from the mascot sheet with `tools/cutout.py` and list it as temporary.
+5. Logo: `assets/brand/logo.png` with transparency (the starter does not ship one; `code_panel_overlay.js` and `end_card.js` need it). Until the owner supplies it, make a stand-in from the mascot sheet and list it as temporary:
+   ```bash
+   python3 tools/cutout.py assets/ai/design/mascot-sheet.png assets/brand/logo.png --box 0.04,0.64,0.22,1.0
+   ```
 
 ## Finish and flashes
 
@@ -198,3 +248,5 @@ After each scene change: contact sheet of that range → fix → again. Before d
 | Cut-out pack shot showed a visible rectangle | feather all four edges with gradient masks (`end_card.js`) |
 | Objects flew through the headline | route them off an edge below the headline band |
 | Rendering an edit of a held shot twice (text change) | keep text in `copy.json` and re-render only once all copy is checked |
+| A callout pill ran under the platform buttons (x > 940 at y ~1040) | edge-anchored pills + `--guides`; found only by a cold re-test, so check every callout shot with guides |
+| End-card pack shot showed a tiny product, or a pale rectangle | set the `PACK` crop in `end_card.js` to the product; plates with dark or busy edges feather cleanly, flat bright ones do not |

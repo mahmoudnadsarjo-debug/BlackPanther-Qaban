@@ -4,23 +4,29 @@ arranged entirely from plan/beats.json - the same file the picture reads, so a r
 
 usage: make_audio.py [out.wav=cache/audio/mix-raw.wav]     then: python3 tools/master_audio.py <raw> <final>
        make_audio.py --list                                 print every sfx recipe and music section kind
+       make_audio.py --help
 
 plan/beats.json
   "bpm": 120
   "cues":  [{ "id": "drop", "t": 9.5, "sfx": ["impact_big", {"s": "title_slam", "dt": 0.4, "g": 0.8, "pan": -0.2}] }, ...]
            sfx entries are recipe names, or objects with s (recipe), g (gain multiplier), pan (-1..1), dt (seconds after the cue).
            Recipes that lead INTO a moment (riser, reverse_cymbal, cut_hit, cut_whip) end exactly on the cue.
-  "audio": { "seed": 1, "root_hz": 73.42,
+  "audio": { "seed": 1, "root_hz": 73.42, "low_gain": 1.0,      (low_gain < 1 thins kick / 808 / sub when a section reads bass-heavy)
              "sections": [ {"kind": "drone", "from": 0, "to": 2.5}, {"kind": "sneaky", "from": 2.5, "to": 6},
                            {"kind": "hold", "from": 6, "to": 9.5},  {"kind": "beat", "from": 10, "to": 20, "no_riff_bars": [3], "bell_bars": [5]},
                            {"kind": "outro", "from": 20, "to": 24} ] }
 
+Every section accepts "gain" (1 = default level).
 Seeded: the same plan always gives the same file. Nobody hears this while it is made - run tools/audio_report.py,
 and tell the owner the mix was measured, not auditioned.
 """
 import json, sys, wave
 import numpy as np
 from scipy.signal import butter, sosfilt, fftconvolve
+
+if any(a in ('--help', '-h') for a in sys.argv[1:]): sys.exit(__doc__)
+_flags = [a for a in sys.argv[1:] if a.startswith('-') and a != '--list']
+if _flags: sys.exit(f'unknown option {_flags[0]} (try --help)')
 
 SR = 48000
 TAU = 2 * np.pi
@@ -31,6 +37,7 @@ AUDIO = PLAN.get('audio', {})
 rng = np.random.default_rng(int(AUDIO.get('seed', 1)))
 BEAT = 60.0 / float(PLAN.get('bpm', 120))                 # seconds per beat
 ROOT = float(AUDIO.get('root_hz', 73.42))                 # bass root (73.42 Hz = D2); riffs and plucks follow it
+LOW = float(AUDIO.get('low_gain', 1.0))                   # < 1 thins the low instruments (kick, 808, sub) everywhere
 
 # ---------------------------------------------------------------- helpers
 def tt(d): return np.arange(int(SR * d)) / SR
@@ -231,7 +238,7 @@ def trim(gain):
 for _name, _g in dict(kick=0.45, bass808=0.5, sub_drop=0.42, thud=0.6, sack=0.8, cowbell=2.6, pluck=2.0, bell=2.2, hat=2.2, clap=1.6,
                       coin=1.6, beep=1.6, tok=1.6, pop=1.5, tick=1.6, whoosh=1.8, shing=1.2, kaching=1.5, zip_=1.6, boing=1.5,
                       fall_whistle=1.4, crash_cymbal=1.4, riser=1.4).items():
-    globals()[_name] = trim(_g)(globals()[_name])
+    globals()[_name] = trim(_g * (LOW if _name in ('kick', 'bass808', 'sub_drop') else 1.0))(globals()[_name])
 
 def note(semis, octave=3):
     """Pitch `semis` semitones above the root, `octave` octaves up (3 -> riff register, 2 -> pluck register)."""
@@ -466,7 +473,16 @@ if len(sys.argv) > 1 and sys.argv[1] == '--list':
 # ================================================================= ARRANGE
 for s in AUDIO.get('sections', []):
     if s['kind'] not in SECTIONS: sys.exit(f'unknown section kind "{s["kind"]}". Known: {", ".join(sorted(SECTIONS))}')
-    SECTIONS[s['kind']](s)
+    g = float(s.get('gain', 1.0))
+    if g == 1.0 or s['kind'] == 'drone':                 # drone applies its own gain
+        SECTIONS[s['kind']](s)
+    else:                                                # render the section alone, scale it, add it back
+        keep_m, keep_w = music.b, wet.b
+        music.b, wet.b = np.zeros((N, 2)), np.zeros((N, 2))
+        SECTIONS[s['kind']](s)
+        music.b, wet.b = keep_m + music.b * g, keep_w + wet.b * g
+silent_cues = [c['id'] for c in PLAN['cues'] if 'sfx' not in c]
+if silent_cues: print(f'note: cues with no "sfx" key (use ["none"] when silence is deliberate): {", ".join(silent_cues)}')
 placed = 0
 for c in PLAN['cues']:
     entries = c.get('sfx', [])

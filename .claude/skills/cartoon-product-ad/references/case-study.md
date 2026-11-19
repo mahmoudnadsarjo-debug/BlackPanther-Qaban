@@ -56,6 +56,7 @@ Every key frame was usable on the first try once the sheets existed. All seven c
 | Bass-heavy mix | First mix had ~20 dB more energy below 120 Hz than in 0.5-2 kHz. | Measured trims; `audio_report.py` every time |
 | Dialect slip | One verb used a neighbouring dialect's prefix; caught on a re-read after the first full render had started, costing a re-render. | Read all copy once more *before* the long render; say when not native |
 | Unverifiable sound | Nobody could listen. | Report "measured, not auditioned" and ask the owner to listen |
+| Label under the platform buttons | The "height 70 cm" pill ran to x 1039 at y 1040, where TikTok/Reels buttons sit. Missed in every review; found when the skill was re-tested cold on another product. | Edge-anchored pills, `--guides`, and a grey-box block-out before generating |
 
 ## Numbers worth remembering
 

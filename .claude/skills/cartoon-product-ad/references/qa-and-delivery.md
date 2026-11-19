@@ -13,8 +13,10 @@
 Run them on the file the owner will receive, not on your memory of the scenes.
 
 ```bash
-python3 tools/qa_video.py "renders/previews/<Name> - Preview v1.mp4"
+python3 tools/qa_video.py "renders/previews/<Name> - Preview v1.mp4" --final
 ```
+
+Half-size renders are for your own checks while building; anything the owner receives is rendered at `--scale 1` and checked with `--final` (without that flag a reduced 9:16 file passes with a note). An optional number after the file sets how many frames go on the sheet.
 
 It verifies H.264 yuv420p, 1080 x 1920, frame rate, duration against the plan, faststart, AAC 48 kHz stereo, loudness near -14 LUFS, true peak, and writes a sheet of frames pulled back out of the encoded file. Look at that sheet.
 
@@ -24,7 +26,7 @@ Then go through this list honestly; "not checked" is an acceptable answer as lon
 - [ ] Every on-screen claim traces to the fact table in `AD_BRIEF.md`.
 - [ ] No text or logo inside any generated image; the factory mark is nowhere.
 - [ ] Copy read once more in full, in the audience's dialect; numbers and units correct.
-- [ ] Text inside safe areas; nothing essential below y 1250 or in the right 140 px.
+- [ ] Text inside safe areas (check a `--guides` sheet): nothing essential below y 1250, or right of x 940 from y 850 down.
 - [ ] Call to action on screen ≥ 2 s; one action only.
 - [ ] Flashes within limits (see `compositing.md`).
 - [ ] Characters and product on-model in every shot.

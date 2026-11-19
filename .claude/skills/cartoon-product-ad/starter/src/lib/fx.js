@@ -113,3 +113,33 @@ export function sparkle(ctx, x, y, r, color = PAL.white, rot = 0) {
   ctx.closePath(); ctx.fillStyle = color; ctx.fill(); ctx.strokeStyle = PAL.ink; ctx.lineWidth = 5; ctx.lineJoin = 'round'; ctx.stroke();
   ctx.restore();
 }
+
+/** Uniform scale pair of an entrance state: pop() gives {scale}, slam() gives {sx, sy}. Use when hand-drawing a block. */
+export const scaleOf = state => [state?.sx ?? state?.scale ?? 1, state?.sy ?? state?.scale ?? 1];
+
+/** Hand-inked measure bracket from A to B with end ticks. u = draw-on progress 0..1 (it grows from the middle). */
+export function bracket(ctx, ax, ay, bx, by, u, { tick = 26, w = 9, color = PAL.amber } = {}) {
+  if (u <= 0) return;
+  const e = E.outCubic(clamp(u)), mx = lerp(ax, bx, 0.5), my = lerp(ay, by, 0.5);
+  const x0 = lerp(mx, ax, e), y0 = lerp(my, ay, e), x1 = lerp(mx, bx, e), y1 = lerp(my, by, e);
+  const len = Math.hypot(bx - ax, by - ay) || 1, nx = -(by - ay) / len, ny = (bx - ax) / len;
+  const path = () => {
+    ctx.beginPath(); ctx.moveTo(x0, y0); ctx.lineTo(x1, y1);
+    if (e > 0.9) { ctx.moveTo(ax - nx * tick, ay - ny * tick); ctx.lineTo(ax + nx * tick, ay + ny * tick); ctx.moveTo(bx - nx * tick, by - ny * tick); ctx.lineTo(bx + nx * tick, by + ny * tick); }
+  };
+  ctx.save(); ctx.lineCap = 'round';
+  path(); ctx.strokeStyle = PAL.ink; ctx.lineWidth = w + 9; ctx.stroke();
+  path(); ctx.strokeStyle = color; ctx.lineWidth = w; ctx.stroke();
+  ctx.restore();
+}
+/** Dotted leader from a label (ax, ay) to the thing it names (bx, by), ending in a dot. u = draw-on progress 0..1. */
+export function leader(ctx, ax, ay, bx, by, u, { color = PAL.cream, dot = PAL.amber } = {}) {
+  if (u <= 0) return;
+  const e = E.outCubic(clamp(u));
+  ctx.save(); ctx.lineCap = 'round'; ctx.setLineDash([2, 18]);
+  ctx.beginPath(); ctx.moveTo(ax, ay); ctx.lineTo(lerp(ax, bx, e), lerp(ay, by, e));
+  ctx.strokeStyle = PAL.ink; ctx.lineWidth = 15; ctx.stroke(); ctx.strokeStyle = color; ctx.lineWidth = 7; ctx.stroke();
+  ctx.setLineDash([]);
+  if (e > 0.95) { ctx.beginPath(); ctx.arc(bx, by, 13, 0, Math.PI * 2); ctx.fillStyle = dot; ctx.fill(); ctx.strokeStyle = PAL.ink; ctx.lineWidth = 6; ctx.stroke(); }
+  ctx.restore();
+}

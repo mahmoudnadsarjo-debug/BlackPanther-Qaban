@@ -11,9 +11,9 @@ import { COPY, remap } from '../lib/shot.js';
 export async function draw(ctx, t, env) {
   const T = env.T, tOpen = cue('eyes_open');
   // clip: eyes close fully at ~1.25s and snap open at 1.417s; align that snap to the cue, then ease to 0.7x
-  const tc = remap(t, [[0, 1.417 - tOpen], [tOpen + 0.2, 1.617], [2.5, 3.0]]);
+  const tc = remap(t, [[0, 1.417 - tOpen], [tOpen + 0.2, 1.617], [env.dur, 3.0]]);
   const bmp = await env.clip('v1-eyes-k4', tc);
-  const z = lerp(1.0, 1.1, E.inOutSine(t / 2.5)) * punch(T, tOpen, 0.08, 0.45);
+  const z = lerp(1.0, 1.1, E.inOutSine(t / env.dur)) * punch(T, tOpen, 0.08, 0.45);
   const sh = shake(T, tOpen, 16, 0.32, 3);
   env.cover(ctx, bmp, { zoom: z, fx: 0.5, fy: 0.66, dx: sh.x, dy: sh.y });
   topShade(ctx, 0.5, 680);

@@ -43,7 +43,7 @@ function flyingCoin(ctx, T, t0, i) {
 export async function draw(ctx, t, env) {
   const T = env.T, t0 = cue('cut_problem');
   const bmp = await env.clip('v2-problem', t * 1.0 + 0.15);
-  let z = lerp(1.14, 1.0, E.outExpo(seg(T, t0, t0 + 0.45))) * lerp(1.0, 1.05, t / 3.5);
+  let z = lerp(1.14, 1.0, E.outExpo(seg(T, t0, t0 + 0.45))) * lerp(1.0, 1.05, t / env.dur);
   for (const c of ['coin1', 'coin2', 'coin3']) z *= punch(T, cue(c), 0.025, 0.25);
   const sh = shake(T, t0, 20, 0.35, 5);
   env.cover(ctx, bmp, { zoom: z, fx: 0.45, fy: 0.62, dx: sh.x, dy: sh.y });

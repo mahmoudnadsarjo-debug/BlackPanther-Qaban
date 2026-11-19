@@ -17,6 +17,7 @@ name = sys.argv[1]
 nums = [a for a in sys.argv[2:] if not a.startswith('--')]
 box = [float(v) for v in nums[:4]] if len(nums) >= 4 else [0, 0, 1, 1]
 d = pathlib.Path('assets/ai/clips') / name
+if not (d / 'meta.json').exists(): sys.exit(f'clip "{name}" is not extracted. Run: python3 tools/clip_extract.py {name} <file-or-url>')
 meta = json.loads((d / 'meta.json').read_text()); fps, n = meta['fps'], meta['frames']
 W, H = 270, 480
 x0, y0, x1, y1 = int(box[0] * W), int(box[1] * H), int(box[2] * W), int(box[3] * H)
