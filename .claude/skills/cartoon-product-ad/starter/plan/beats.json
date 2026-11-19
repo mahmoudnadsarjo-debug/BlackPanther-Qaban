@@ -1,0 +1,24 @@
+{
+  "title": "Starter smoke test - replace with the real plan",
+  "bpm": 120,
+  "fps": 30,
+  "duration": 4.0,
+  "scenes": [
+    { "id": "smoke", "start": 0.0, "end": 4.0 }
+  ],
+  "cues": [
+    { "id": "smoke_w1",   "t": 0.5, "sfx": ["pop"] },
+    { "id": "smoke_w2",   "t": 1.0, "sfx": ["title_slam"] },
+    { "id": "smoke_hit",  "t": 1.5, "sfx": ["impact_big"] },
+    { "id": "smoke_pill", "t": 2.5, "sfx": ["cta_chime"] }
+  ],
+  "audio": {
+    "seed": 1,
+    "root_hz": 73.42,
+    "sections": [
+      { "kind": "drone", "from": 0.0, "to": 1.5 },
+      { "kind": "beat",  "from": 1.5, "to": 3.5 },
+      { "kind": "button", "at": 3.5 }
+    ]
+  }
+}

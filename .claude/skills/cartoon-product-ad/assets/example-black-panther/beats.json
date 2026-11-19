@@ -1,0 +1,408 @@
+{
+ "title": "Black Panther back-rail scale ad (worked example)",
+ "bpm": 120,
+ "fps": 30,
+ "duration": 24.0,
+ "scenes": [
+  {
+   "id": "s1_hook",
+   "mod": "hook_clip",
+   "start": 0.0,
+   "end": 2.5
+  },
+  {
+   "id": "s2_problem",
+   "mod": "problem_clip_overlay",
+   "start": 2.5,
+   "end": 6.0
+  },
+  {
+   "id": "s3_gag",
+   "mod": "gag_remapped_clip",
+   "start": 6.0,
+   "end": 9.5
+  },
+  {
+   "id": "s4_reveal",
+   "mod": "hero_slam_callouts",
+   "start": 9.5,
+   "end": 12.0
+  },
+  {
+   "id": "s5_dims",
+   "mod": "hero_slam_callouts",
+   "start": 12.0,
+   "end": 14.0
+  },
+  {
+   "id": "s6_panel",
+   "mod": "code_panel_overlay",
+   "start": 14.0,
+   "end": 16.0
+  },
+  {
+   "id": "s7_load",
+   "mod": "step_pullback",
+   "start": 16.0,
+   "end": 18.0
+  },
+  {
+   "id": "s8_payoff",
+   "mod": "payoff_impact_rain",
+   "start": 18.0,
+   "end": 20.0
+  },
+  {
+   "id": "s9_end",
+   "mod": "end_card",
+   "start": 20.0,
+   "end": 24.0
+  }
+ ],
+ "cues": [
+  {
+   "id": "eyes_open",
+   "t": 0.35,
+   "sfx": [
+    "glint"
+   ]
+  },
+  {
+   "id": "hook_w1",
+   "t": 0.55,
+   "sfx": [
+    "pop"
+   ]
+  },
+  {
+   "id": "hook_w2",
+   "t": 1.05,
+   "sfx": [
+    "pop_low"
+   ]
+  },
+  {
+   "id": "cut_problem",
+   "t": 2.5,
+   "sfx": [
+    "riser",
+    "cut_hit"
+   ]
+  },
+  {
+   "id": "prob_title",
+   "t": 2.65,
+   "sfx": [
+    "title_slam"
+   ]
+  },
+  {
+   "id": "needle",
+   "t": 2.92,
+   "sfx": [
+    {
+     "s": "boing",
+     "pan": -0.25
+    },
+    {
+     "s": "boing",
+     "dt": 0.53,
+     "g": 0.7,
+     "pan": -0.25
+    }
+   ]
+  },
+  {
+   "id": "prob_line2",
+   "t": 3.9,
+   "sfx": [
+    "none"
+   ]
+  },
+  {
+   "id": "coin1",
+   "t": 4.0,
+   "sfx": [
+    {
+     "s": "coin_away",
+     "pan": 0.3
+    }
+   ]
+  },
+  {
+   "id": "coin2",
+   "t": 4.5,
+   "sfx": [
+    {
+     "s": "coin_away",
+     "pan": 0.3
+    }
+   ]
+  },
+  {
+   "id": "coin3",
+   "t": 5.0,
+   "sfx": [
+    {
+     "s": "coin_away",
+     "pan": 0.3
+    }
+   ]
+  },
+  {
+   "id": "cut_swipe",
+   "t": 6.0,
+   "sfx": [
+    "soft_hit"
+   ]
+  },
+  {
+   "id": "tap1",
+   "t": 6.5,
+   "sfx": [
+    {
+     "s": "tap",
+     "pan": -0.3
+    }
+   ]
+  },
+  {
+   "id": "tap2",
+   "t": 7.0,
+   "sfx": [
+    {
+     "s": "tap",
+     "g": 1.15,
+     "pan": -0.3
+    }
+   ]
+  },
+  {
+   "id": "shove",
+   "t": 7.5,
+   "sfx": [
+    {
+     "s": "shove",
+     "pan": -0.4
+    }
+   ]
+  },
+  {
+   "id": "crash",
+   "t": 8.0,
+   "sfx": [
+    {
+     "s": "metal_crash",
+     "pan": -0.45
+    }
+   ]
+  },
+  {
+   "id": "bye",
+   "t": 8.5,
+   "sfx": [
+    "bye_chime"
+   ]
+  },
+  {
+   "id": "drop",
+   "t": 9.5,
+   "sfx": [
+    "reverse_cymbal",
+    "impact_big"
+   ]
+  },
+  {
+   "id": "title1",
+   "t": 9.9,
+   "sfx": [
+    "title_slam"
+   ]
+  },
+  {
+   "id": "panther_on",
+   "t": 10.5,
+   "sfx": [
+    "land"
+   ]
+  },
+  {
+   "id": "title2",
+   "t": 10.6,
+   "sfx": [
+    "title_slam_big"
+   ]
+  },
+  {
+   "id": "cut_dims",
+   "t": 12.0,
+   "sfx": [
+    "cut_whip"
+   ]
+  },
+  {
+   "id": "dim1",
+   "t": 12.3,
+   "sfx": [
+    {
+     "s": "measure_tick",
+     "pan": 0.3
+    }
+   ]
+  },
+  {
+   "id": "dim2",
+   "t": 12.8,
+   "sfx": [
+    {
+     "s": "measure_tick",
+     "pan": 0.3
+    }
+   ]
+  },
+  {
+   "id": "dim3",
+   "t": 13.3,
+   "sfx": [
+    {
+     "s": "measure_tick",
+     "pan": 0.3
+    }
+   ]
+  },
+  {
+   "id": "cut_panel",
+   "t": 14.0,
+   "sfx": [
+    "cut_whip"
+   ]
+  },
+  {
+   "id": "led1",
+   "t": 14.4,
+   "sfx": [
+    "beep"
+   ]
+  },
+  {
+   "id": "led2",
+   "t": 14.8,
+   "sfx": [
+    "beep_keys"
+   ]
+  },
+  {
+   "id": "led3",
+   "t": 15.2,
+   "sfx": [
+    "beep_confirm"
+   ]
+  },
+  {
+   "id": "cut_load",
+   "t": 16.0,
+   "sfx": [
+    "heavy_thud"
+   ]
+  },
+  {
+   "id": "load_hit2",
+   "t": 16.5,
+   "sfx": [
+    {
+     "s": "heavy_thud",
+     "g": 0.9
+    }
+   ]
+  },
+  {
+   "id": "load_hit3",
+   "t": 17.0,
+   "sfx": [
+    "heavy_thud"
+   ]
+  },
+  {
+   "id": "bump",
+   "t": 18.0,
+   "sfx": [
+    "bump"
+   ]
+  },
+  {
+   "id": "coins_in",
+   "t": 18.5,
+   "sfx": [
+    "coins_rain"
+   ]
+  },
+  {
+   "id": "cut_end",
+   "t": 20.0,
+   "sfx": [
+    "boom_tail"
+   ]
+  },
+  {
+   "id": "logo",
+   "t": 20.4,
+   "sfx": [
+    {
+     "s": "title_slam",
+     "g": 1.4
+    }
+   ]
+  },
+  {
+   "id": "limited",
+   "t": 21.1,
+   "sfx": [
+    "stamp"
+   ]
+  },
+  {
+   "id": "cta",
+   "t": 21.7,
+   "sfx": [
+    "cta_chime"
+   ]
+  }
+ ],
+ "audio": {
+  "seed": 20261118,
+  "root_hz": 73.42,
+  "sections": [
+   {
+    "kind": "drone",
+    "from": 0.0,
+    "to": 2.5
+   },
+   {
+    "kind": "sneaky",
+    "from": 2.5,
+    "to": 6.0
+   },
+   {
+    "kind": "hold",
+    "from": 6.0,
+    "to": 9.5
+   },
+   {
+    "kind": "beat",
+    "from": 10.0,
+    "to": 20.0,
+    "no_riff_bars": [
+     3
+    ],
+    "bell_bars": [
+     5
+    ]
+   },
+   {
+    "kind": "outro",
+    "from": 20.0,
+    "to": 24.0
+   }
+  ]
+ }
+}

@@ -1,0 +1,7 @@
+node_modules/
+cache/
+.env
+# extracted clip frames are rebuilt from assets/ai/video with: python3 tools/clip_extract.py --all
+assets/ai/clips/*/*.jpg
+# third-party reference material is for study only
+assets/refs/
